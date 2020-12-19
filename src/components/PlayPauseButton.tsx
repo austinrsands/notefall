@@ -18,7 +18,7 @@ const PlayPauseButton: React.FC<Props & StyleProps> = ({
   const [isPaused, setIsPaused] = useState(DEFAULT_APP_STATE.isPaused);
   const { appDispatch } = useAppContext();
 
-  // Play or pause
+  // Plays or pauses
   const handleClick = () => {
     if (isPaused) appDispatch({ type: 'play' });
     else appDispatch({ type: 'pause' });

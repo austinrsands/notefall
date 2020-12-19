@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 const Sketch: React.FC<StyleProps> = ({ className, style }) => {
   const classes = useStyles();
 
-  // Called once at beginning
+  // Gets called once at beginning
   const setup = (
     context: CanvasRenderingContext2D,
     width: number,
@@ -27,7 +27,7 @@ const Sketch: React.FC<StyleProps> = ({ className, style }) => {
     context.fill();
   };
 
-  // Called every frame
+  // Gets called every frame
   const draw = (
     context: CanvasRenderingContext2D,
     width: number,

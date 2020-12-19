@@ -7,7 +7,7 @@ import { MAX_TEMPO, MIN_TEMPO } from '../piano/piano';
 const TempoSlider: React.FC<StyleProps> = ({ className, style }) => {
   const { appState, appDispatch } = useAppContext();
 
-  // Update the tempo scale
+  // Updates the tempo scale
   const handleTempoScaleChange = (
     _: ChangeEvent<{}>,
     value: number | number[],

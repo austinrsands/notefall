@@ -7,7 +7,7 @@ import { useAppContext } from '../contexts/AppContext';
 const UploadButton: React.FC<StyleProps> = ({ className, style }) => {
   const { appDispatch } = useAppContext();
 
-  // Convert uploaded file to MIDI object and send to context
+  // Converts uploaded file to MIDI object and sends to context
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     // Capture file
     if (!event.target.files) return;

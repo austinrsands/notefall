@@ -6,7 +6,7 @@ import { useAppContext } from '../contexts/AppContext';
 const WaitModeSwitch: React.FC<StyleProps> = ({ className, style }) => {
   const { appState, appDispatch } = useAppContext();
 
-  // Enable or disable wait mode
+  // Enables or disables wait mode
   const handleWaitModeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) appDispatch({ type: 'enable-wait-mode' });
     else appDispatch({ type: 'disable-wait-mode' });

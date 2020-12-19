@@ -7,6 +7,7 @@ import { Keyboard, KEYBOARDS } from '../piano/piano';
 const KeyboardSelect: React.FC<StyleProps> = ({ className, style }) => {
   const { appState, appDispatch } = useAppContext();
 
+  // Selects keyboard
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     appDispatch({
       type: 'update-keyboard',

@@ -8,9 +8,12 @@ export type Keyboard = '49-key' | '61-key' | '76-key' | '88-key';
 export const KEYBOARDS: Keyboard[] = ['49-key', '61-key', '76-key', '88-key'];
 export const DEFAULT_KEYBOARD: Keyboard = '61-key';
 
+// Keys
 export const WHITE_KEY_WIDTH_HEIGHT_RATIO = 1 / 4;
 export const BLACK_KEY_WIDTH_HEIGHT_RATIO = 1 / 4;
 export const BLACK_KEY_WHITE_KEY_HEIGHT_RATIO = 3 / 5;
+
+// TODO: move to rendering file
 export const WHITE_KEY_COLOR_DEFAULT = '#f5f6fa';
 export const WHITE_KEY_COLOR_PRESSED = '#9E9E9E';
 export const BLACK_KEY_COLOR_DEFAULT = '#000000';
@@ -23,10 +26,11 @@ export const NO_HAND_NOTE_COLOR_DEFAULT = '#D81B60';
 export const NO_HAND_NOTE_COLOR_PLAYED = '#AD1457';
 export const NOTE_BLOCK_BORDER_COLOR_DEFAULT = '#000000';
 export const OCTAVE_DIVIDER_COLOR = '#2b2b2b';
+
+// Notes
 export const MIDDLE_C_NOTE = 60;
 export const NOTES_PER_OCTAVE = 12;
-
-export const NOTE_LABELS = [
+export const NOTE_NAMES = [
   'C',
   'C♯\nD♭',
   'D',
@@ -41,9 +45,8 @@ export const NOTE_LABELS = [
   'B',
 ];
 export const NATURAL_NOTE_OCTAVE_POSITIONS = [0, 2, 4, 5, 7, 9, 11];
-
-// x-offsets relative to position of previous note
-export const NOTE_X_OFFSETS = [
+// List of horizontal offsets of notes relative to the position of previous note
+export const HORIZONTAL_OFFSETS = [
   1,
   0.6,
   0.4,
@@ -58,11 +61,18 @@ export const NOTE_X_OFFSETS = [
   0.24,
 ];
 
-// Fixes negative modulo problem
+// Hand
+export type Hand = 'left' | 'right';
+
+// Computes nonnegative modulo remainder
 const mod = (n: number, m: number) => ((n % m) + m) % m;
 
+// Calculates a given note's index in an octave
+export const octaveIndex = (note: number) =>
+  mod(note - MIDDLE_C_NOTE, NOTES_PER_OCTAVE);
+
 // Returns array of consecutive integers from start to end (inclusive).
-export const range = (start: number, end: number) => {
+const range = (start: number, end: number) => {
   const nums = [];
   for (let i = start; i <= end; i++) {
     nums.push(i);
@@ -70,6 +80,7 @@ export const range = (start: number, end: number) => {
   return nums;
 };
 
+// Maps keyboards to their range of notes
 export const KEYBOARD_NOTE_RANGES: Record<Keyboard, number[]> = {
   '49-key': range(36, 84),
   '61-key': range(36, 96),
@@ -77,20 +88,18 @@ export const KEYBOARD_NOTE_RANGES: Record<Keyboard, number[]> = {
   '88-key': range(21, 108),
 };
 
-export const getNoteIndexInOctave = (note: number) =>
-  mod(note - MIDDLE_C_NOTE, NOTES_PER_OCTAVE);
+// Returns the name of the given note
+export const noteName = (note: number) => NOTE_NAMES[octaveIndex(note)];
 
-export const getNoteLabel = (note: number) =>
-  NOTE_LABELS[getNoteIndexInOctave(note)];
-
+// Returns whether note is natural
 export const isNatural = (note: number) =>
-  NATURAL_NOTE_OCTAVE_POSITIONS.includes(getNoteIndexInOctave(note));
+  NATURAL_NOTE_OCTAVE_POSITIONS.includes(octaveIndex(note));
 
-export const getKeyXOffsetFromPrevious = (note: number) =>
-  NOTE_X_OFFSETS[getNoteIndexInOctave(note)];
+// Returns the horizontal offset of the given note from the previous note
+export const horizontalOffset = (note: number) =>
+  HORIZONTAL_OFFSETS[octaveIndex(note)];
 
-export type Hand = 'left' | 'right';
-
+// Represents a note from a song
 export interface SongNote {
   note: number;
   time: number;

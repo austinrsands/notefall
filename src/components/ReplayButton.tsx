@@ -15,7 +15,7 @@ const ReplayButton: React.FC<Props & StyleProps> = ({
 }) => {
   const { appDispatch } = useAppContext();
 
-  // Restart song
+  // Restarts song
   const handleClick = () => {
     appDispatch({ type: 'restart' });
   };

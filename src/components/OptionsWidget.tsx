@@ -7,12 +7,12 @@ import OptionsMenu from './OptionsMenu';
 const OptionsWidget: React.FC<StyleProps> = ({ className, style }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Open options menu
+  // Opens options menu
   const handleClick = () => {
     setIsMenuOpen(true);
   };
 
-  // Close options menu
+  // Closes options menu
   const handleClose = () => {
     setIsMenuOpen(false);
   };
