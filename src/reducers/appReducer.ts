@@ -6,6 +6,7 @@ export interface AppState {
   waitModeEnabled: boolean;
   tempo: number;
   keyboard: Keyboard;
+  notes: number[];
   song?: Midi;
 }
 
@@ -14,6 +15,7 @@ export const DEFAULT_APP_STATE: AppState = {
   waitModeEnabled: true,
   tempo: DEFAULT_TEMPO,
   keyboard: DEFAULT_KEYBOARD,
+  notes: [],
 };
 
 export type AppAction =
@@ -24,7 +26,9 @@ export type AppAction =
   | { type: 'enable-wait-mode' }
   | { type: 'disable-wait-mode' }
   | { type: 'update-tempo'; tempo: number }
-  | { type: 'update-keyboard'; keyboard: Keyboard };
+  | { type: 'update-keyboard'; keyboard: Keyboard }
+  | { type: 'play-note'; note: number }
+  | { type: 'rest-note'; note: number };
 
 const appReducer = (state: AppState, action: AppAction) => {
   switch (action.type) {
@@ -68,6 +72,18 @@ const appReducer = (state: AppState, action: AppAction) => {
       return {
         ...state,
         keyboard: action.keyboard,
+      };
+    case 'play-note':
+      return {
+        ...state,
+        notes: state.notes.includes(action.note)
+          ? state.notes
+          : state.notes.concat(action.note),
+      };
+    case 'rest-note':
+      return {
+        ...state,
+        notes: state.notes.filter((note) => note !== action.note),
       };
     default:
       return state;
