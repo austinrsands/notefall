@@ -19,6 +19,7 @@ const UploadLabel: React.FC<StyleProps> = ({ className, style }) => {
       className={clsx(classes.root, className)}
       style={style}
       variant="body2"
+      color="textSecondary"
     >
       {appState.song?.name || 'no file uploaded'}
     </Typography>

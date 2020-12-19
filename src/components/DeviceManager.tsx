@@ -1,60 +1,52 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSnackbar } from 'notistack';
 import WebMidi, {
   InputEventNoteoff,
   InputEventNoteon,
-  InputEventSysex,
   WebMidiEventConnected,
   WebMidiEventDisconnected,
 } from 'webmidi';
 import { useAppContext } from '../contexts/AppContext';
+import SimpleBackdrop from './SimpleBackdrop';
 
 const DeviceManager: React.FC = () => {
   const { appDispatch } = useAppContext();
   const { enqueueSnackbar } = useSnackbar();
+  const [isBlocked, setIsBlocked] = useState(false);
 
-  // Pops up device connection message
+  // Alert user that device has been connected
   const showConnectionSnackbar = useCallback(
     (inputName: string) => {
       enqueueSnackbar(`${inputName} connected`, {
         variant: 'success',
         preventDuplicate: true,
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'center',
+        },
       });
     },
     [enqueueSnackbar],
   );
 
-  // Pops up device disconnection message
+  // Alert user that device has been disconnected
   const showDisconnectionSnackbar = useCallback(
     (inputName: string) => {
       enqueueSnackbar(`${inputName} disconnected`, {
-        variant: 'default',
+        variant: 'warning',
         preventDuplicate: true,
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'center',
+        },
       });
     },
     [enqueueSnackbar],
-  );
-
-  const handleConnection = useCallback(
-    (event: WebMidiEventConnected) => {
-      console.log('connection', event);
-      showConnectionSnackbar(event.port.name);
-    },
-    [showConnectionSnackbar],
-  );
-
-  const handleDisconnection = useCallback(
-    (event: WebMidiEventDisconnected) => {
-      console.log('disconnection', event);
-      showDisconnectionSnackbar(event.port.name);
-    },
-    [showDisconnectionSnackbar],
   );
 
   // Play note
   const handleNoteOn = useCallback(
     (event: InputEventNoteon) => {
-      console.log('on', event);
       appDispatch({ type: 'play-note', note: event.note.number });
     },
     [appDispatch],
@@ -63,35 +55,55 @@ const DeviceManager: React.FC = () => {
   // Rest note
   const handleNoteOff = useCallback(
     (event: InputEventNoteoff) => {
-      console.log('off', event);
       appDispatch({ type: 'rest-note', note: event.note.number });
     },
     [appDispatch],
   );
 
-  const handleSysexMessage = (event: InputEventSysex) => {
-    console.log('sysex', event);
-  };
+  // Sets up input device
+  const handleConnection = useCallback(
+    (event: WebMidiEventConnected) => {
+      if (event.port.type === 'input') {
+        const input = event.port;
+        input.addListener('noteon', 'all', handleNoteOn);
+        input.addListener('noteoff', 'all', handleNoteOff);
+        showConnectionSnackbar(event.port.name);
+      }
+    },
+    [handleNoteOff, handleNoteOn, showConnectionSnackbar],
+  );
+
+  // Disconnects input device
+  const handleDisconnection = useCallback(
+    (event: WebMidiEventDisconnected) => {
+      if (event.port.type === 'input') {
+        showDisconnectionSnackbar(event.port.name);
+      }
+    },
+    [showDisconnectionSnackbar],
+  );
 
   // Sets up input devices
   useEffect(() => {
-    WebMidi.enable((error) => {
-      // Add note-on, note-off, and sysex listeners to inputs
-      WebMidi.inputs.forEach((input) => {
-        input.addListener('noteon', 'all', handleNoteOn);
-        input.addListener('noteoff', 'all', handleNoteOff);
-        input.addListener('sysex', 'all', handleSysexMessage);
-      });
-
-      // Add connection/disconnection listeners
-      WebMidi.addListener('connected', handleConnection);
-      WebMidi.addListener('disconnected', handleDisconnection);
-
-      console.log('error', error);
+    WebMidi.enable((error?: Error) => {
+      // Check if MIDI access is blocked
+      if (error) {
+        setIsBlocked(true);
+      } else {
+        setIsBlocked(false);
+        WebMidi.addListener('connected', handleConnection);
+        WebMidi.addListener('disconnected', handleDisconnection);
+      }
     }, true);
-  }, [handleConnection, handleDisconnection, handleNoteOff, handleNoteOn]);
+  }, [handleConnection, handleDisconnection]);
 
-  return <h1>Test</h1>;
+  return isBlocked ? (
+    <SimpleBackdrop
+      open
+      title="MIDI access blocked"
+      subtitle="enable full control of MIDI devices to continue"
+    />
+  ) : null;
 };
 
 export default DeviceManager;

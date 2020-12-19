@@ -33,7 +33,7 @@ const useStyles = makeStyles({
     alignItems: 'center',
   },
   control: {
-    margin: '0 1.5rem',
+    margin: '0 2rem',
   },
 });
 

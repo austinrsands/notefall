@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     alignItems: 'center',
   },
   label: {
-    marginLeft: '1.5rem',
+    paddingLeft: '1.5rem',
   },
 });
 

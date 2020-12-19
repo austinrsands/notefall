@@ -26,7 +26,7 @@ interface Props {
 const Canvas: React.FC<Props & StyleProps> = ({
   className,
   style,
-  targetFramerate,
+  targetFramerate = DEFAULT_TARGET_FRAMERATE,
   setup,
   draw,
 }) => {
@@ -68,7 +68,7 @@ const Canvas: React.FC<Props & StyleProps> = ({
         // Reanimate based on target framerate
         setTimeout(() => {
           requestAnimationFrame(animate);
-        }, 1000 / (targetFramerate || DEFAULT_TARGET_FRAMERATE));
+        }, 1000 / targetFramerate);
 
         // Call draw if defined
         if (draw) draw(context, sizeRef.current.width, sizeRef.current.height);
