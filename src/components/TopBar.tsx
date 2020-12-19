@@ -1,10 +1,12 @@
+import React from 'react';
 import { Box, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
-import React from 'react';
 import { StyleProps } from '../styles/style';
-import ControlsWidget from './ControlsWidget';
-import GithubButton from './GithubButton';
 import UploadWidget from './UploadWidget';
+import OptionsWidget from './OptionsWidget';
+import PlayPauseButton from './PlayPauseButton';
+import ReplayButton from './ReplayButton';
+import GithubButton from './GithubButton';
 
 const useStyles = makeStyles({
   root: {
@@ -26,17 +28,29 @@ const useStyles = makeStyles({
     justifyContent: 'flex-end',
     flex: 1,
   },
+  group: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  control: {
+    margin: '0 1.5rem',
+  },
 });
 
 const TopBar: React.FC<StyleProps> = ({ className, style }) => {
   const classes = useStyles();
+
   return (
     <Box className={clsx(classes.root, className)} style={style}>
       <Box className={classes.left}>
         <UploadWidget />
       </Box>
       <Box className={classes.center}>
-        <ControlsWidget />
+        <Box className={classes.group}>
+          <OptionsWidget className={classes.control} />
+          <PlayPauseButton className={classes.control} />
+          <ReplayButton className={classes.control} />
+        </Box>
       </Box>
       <Box className={classes.right}>
         <GithubButton />

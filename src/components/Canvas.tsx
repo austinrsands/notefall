@@ -38,7 +38,7 @@ const Canvas: React.FC<Props & StyleProps> = ({
     const canvas = canvasRef.current;
     const context = canvas?.getContext('2d');
 
-    // Make sure canvas and context are defined
+    // Check if canvas and context are defined
     if (canvas && context) {
       // Resizes canvas if necessary
       const resizeCanvas = () => {
@@ -79,7 +79,7 @@ const Canvas: React.FC<Props & StyleProps> = ({
     }
   }, [setup, draw, targetFramerate]);
 
-  return <canvas ref={canvasRef} className={className} style={style} />;
+  return <canvas className={className} style={style} ref={canvasRef} />;
 };
 
 export default Canvas;

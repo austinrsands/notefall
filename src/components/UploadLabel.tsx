@@ -1,7 +1,8 @@
+import React from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
-import React from 'react';
 import { StyleProps } from '../styles/style';
+import { useAppContext } from '../contexts/AppContext';
 
 const useStyles = makeStyles({
   root: {
@@ -9,24 +10,17 @@ const useStyles = makeStyles({
   },
 });
 
-interface Props {
-  text?: string;
-}
-
-const UploadLabel: React.FC<Props & StyleProps> = ({
-  className,
-  style,
-  text,
-}) => {
+const UploadLabel: React.FC<StyleProps> = ({ className, style }) => {
   const classes = useStyles();
+  const { appState } = useAppContext();
+
   return (
     <Typography
       className={clsx(classes.root, className)}
       style={style}
       variant="body2"
-      color="textSecondary"
     >
-      {text}
+      {appState.song?.name || 'no file uploaded'}
     </Typography>
   );
 };

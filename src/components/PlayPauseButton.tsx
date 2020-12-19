@@ -1,38 +1,41 @@
 import React, { useState } from 'react';
-import { Tooltip, Box, IconButton } from '@material-ui/core';
+import { Tooltip, IconButton } from '@material-ui/core';
 import PauseRoundedIcon from '@material-ui/icons/PauseRounded';
 import PlayArrowRoundedIcon from '@material-ui/icons/PlayArrowRounded';
 import { StyleProps } from '../styles/style';
+import { useAppContext } from '../contexts/AppContext';
+import { DEFAULT_APP_STATE } from '../reducers/appReducer';
 
 interface Props {
-  onPlay?: () => void;
-  onPause?: () => void;
   disabled?: boolean;
 }
 
 const PlayPauseButton: React.FC<Props & StyleProps> = ({
   className,
   style,
-  onPlay,
-  onPause,
   disabled,
 }) => {
-  const [isPaused, setIsPaused] = useState(true);
+  const [isPaused, setIsPaused] = useState(DEFAULT_APP_STATE.isPaused);
+  const { appDispatch } = useAppContext();
 
+  // Play or pause
   const handleClick = () => {
-    if (onPlay && isPaused) onPlay();
-    else if (onPause) onPause();
+    if (isPaused) appDispatch({ type: 'play' });
+    else appDispatch({ type: 'pause' });
     setIsPaused((prev) => !prev);
   };
 
   return (
-    <Box className={className} style={style}>
-      <Tooltip title={isPaused ? 'Play song' : 'Pause song'} enterDelay={500}>
-        <IconButton size="medium" onClick={handleClick} disabled={disabled}>
-          {isPaused ? <PlayArrowRoundedIcon /> : <PauseRoundedIcon />}
-        </IconButton>
-      </Tooltip>
-    </Box>
+    <Tooltip
+      className={className}
+      style={style}
+      title={isPaused ? 'Play song' : 'Pause song'}
+      enterDelay={500}
+    >
+      <IconButton size="medium" onClick={handleClick} disabled={disabled}>
+        {isPaused ? <PlayArrowRoundedIcon /> : <PauseRoundedIcon />}
+      </IconButton>
+    </Tooltip>
   );
 };
 

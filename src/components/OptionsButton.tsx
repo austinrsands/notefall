@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tooltip, Box, IconButton } from '@material-ui/core';
+import { Tooltip, IconButton } from '@material-ui/core';
 import TuneRoundedIcon from '@material-ui/icons/TuneRounded';
 import { StyleProps } from '../styles/style';
 
@@ -14,13 +14,11 @@ const OptionsButton: React.FC<Props & StyleProps> = ({
   onClick,
   disabled,
 }) => (
-  <Box className={className} style={style}>
-    <Tooltip title="Options" enterDelay={500}>
-      <IconButton size="medium" onClick={onClick} disabled={disabled}>
-        <TuneRoundedIcon />
-      </IconButton>
-    </Tooltip>
-  </Box>
+  <Tooltip className={className} style={style} title="Options" enterDelay={500}>
+    <IconButton size="medium" onClick={onClick} disabled={disabled}>
+      <TuneRoundedIcon />
+    </IconButton>
+  </Tooltip>
 );
 
 export default OptionsButton;

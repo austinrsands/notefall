@@ -1,6 +1,6 @@
+import React from 'react';
 import { makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
-import React from 'react';
 import { StyleProps } from '../styles/style';
 import Canvas from './Canvas';
 
@@ -15,6 +15,7 @@ const useStyles = makeStyles({
 const Sketch: React.FC<StyleProps> = ({ className, style }) => {
   const classes = useStyles();
 
+  // Called once at beginning
   const setup = (
     context: CanvasRenderingContext2D,
     width: number,
@@ -26,6 +27,7 @@ const Sketch: React.FC<StyleProps> = ({ className, style }) => {
     context.fill();
   };
 
+  // Called every frame
   const draw = (
     context: CanvasRenderingContext2D,
     width: number,
@@ -43,7 +45,7 @@ const Sketch: React.FC<StyleProps> = ({ className, style }) => {
       style={style}
       setup={setup}
       draw={draw}
-      targetFramerate={100}
+      targetFramerate={10}
     />
   );
 };
