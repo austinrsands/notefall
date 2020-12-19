@@ -2,7 +2,7 @@ import React from 'react';
 import { TextField, MenuItem } from '@material-ui/core';
 import { StyleProps } from '../styles/style';
 import { useAppContext } from '../contexts/AppContext';
-import { Keyboard, KEYBOARDS } from '../piano/piano';
+import { Keyboard, KEYBOARDS } from '../piano/info';
 
 const KeyboardSelect: React.FC<StyleProps> = ({ className, style }) => {
   const { appState, appDispatch } = useAppContext();

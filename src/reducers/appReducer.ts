@@ -1,5 +1,5 @@
 import { Midi } from '@tonejs/midi';
-import { DEFAULT_KEYBOARD, DEFAULT_TEMPO, Keyboard } from '../piano/piano';
+import { DEFAULT_KEYBOARD, DEFAULT_TEMPO, Keyboard } from '../piano/info';
 
 export interface AppState {
   isPaused: boolean;
