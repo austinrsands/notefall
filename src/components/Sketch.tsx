@@ -15,24 +15,16 @@ const useStyles = makeStyles({
 const Sketch: React.FC<StyleProps> = ({ className, style }) => {
   const classes = useStyles();
 
-  // Gets called once at beginning
-  const setup = (
-    context: CanvasRenderingContext2D,
-    width: number,
-    height: number,
-  ) => {
-    context.clearRect(0, 0, width, height);
-    context.beginPath();
-    context.rect(width / 2, height / 2, 10, 10);
-    context.fill();
-  };
-
   // Gets called every frame
   const draw = (
     context: CanvasRenderingContext2D,
     width: number,
     height: number,
   ) => {
+    // TODO: Draw background
+    // TODO: Draw Notes
+    // TODO: Draw Keyboard
+
     // context.clearRect(0, 0, width, height);
     context.beginPath();
     context.rect(Math.random() * width, Math.random() * height, 10, 10);
@@ -43,7 +35,6 @@ const Sketch: React.FC<StyleProps> = ({ className, style }) => {
     <Canvas
       className={clsx(classes.root, className)}
       style={style}
-      setup={setup}
       draw={draw}
       targetFramerate={10}
     />

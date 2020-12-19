@@ -2,16 +2,16 @@ import React from 'react';
 import { TextField, MenuItem } from '@material-ui/core';
 import { StyleProps } from '../styles/style';
 import { useAppContext } from '../contexts/AppContext';
-import { Keyboard, KEYBOARDS } from '../piano/info';
+import { KeyboardSize, KEYBOARDS_SIZES } from '../piano/constants';
 
-const KeyboardSelect: React.FC<StyleProps> = ({ className, style }) => {
+const KeyboardSizeSelect: React.FC<StyleProps> = ({ className, style }) => {
   const { appState, appDispatch } = useAppContext();
 
-  // Selects keyboard
+  // Selects keyboard size
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     appDispatch({
-      type: 'update-keyboard',
-      keyboard: event.target.value as Keyboard,
+      type: 'update-keyboard-size',
+      keyboardSize: event.target.value as KeyboardSize,
     });
   };
 
@@ -21,16 +21,16 @@ const KeyboardSelect: React.FC<StyleProps> = ({ className, style }) => {
       style={style}
       fullWidth
       select
-      value={appState.keyboard}
+      value={appState.keyboardSize}
       onChange={handleChange}
     >
-      {KEYBOARDS.map((keyboard) => (
-        <MenuItem key={keyboard} value={keyboard}>
-          {keyboard}
+      {KEYBOARDS_SIZES.map((keyboardSize) => (
+        <MenuItem key={keyboardSize} value={keyboardSize}>
+          {keyboardSize}
         </MenuItem>
       ))}
     </TextField>
   );
 };
 
-export default KeyboardSelect;
+export default KeyboardSizeSelect;

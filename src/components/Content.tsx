@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import Sketch from './Sketch';
 import TopBar from './TopBar';
 import { StyleProps } from '../styles/style';
+import DeviceManager from './DeviceManager';
 
 const useStyles = makeStyles({
   root: {
@@ -21,6 +22,7 @@ const Content: React.FC<StyleProps> = ({ className, style }) => {
     <Box className={clsx(classes.root, className)} style={style}>
       <Sketch className={classes.sketch} />
       <TopBar />
+      <DeviceManager />
     </Box>
   );
 };

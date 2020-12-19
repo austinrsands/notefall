@@ -1,11 +1,15 @@
 import { Midi } from '@tonejs/midi';
-import { DEFAULT_KEYBOARD, DEFAULT_TEMPO, Keyboard } from '../piano/info';
+import {
+  DEFAULT_KEYBOARD_SIZE,
+  DEFAULT_TEMPO,
+  KeyboardSize,
+} from '../piano/constants';
 
 export interface AppState {
   isPaused: boolean;
   waitModeEnabled: boolean;
   tempo: number;
-  keyboard: Keyboard;
+  keyboardSize: KeyboardSize;
   notes: number[];
   song?: Midi;
 }
@@ -14,7 +18,7 @@ export const DEFAULT_APP_STATE: AppState = {
   isPaused: true,
   waitModeEnabled: true,
   tempo: DEFAULT_TEMPO,
-  keyboard: DEFAULT_KEYBOARD,
+  keyboardSize: DEFAULT_KEYBOARD_SIZE,
   notes: [],
 };
 
@@ -26,7 +30,7 @@ export type AppAction =
   | { type: 'enable-wait-mode' }
   | { type: 'disable-wait-mode' }
   | { type: 'update-tempo'; tempo: number }
-  | { type: 'update-keyboard'; keyboard: Keyboard }
+  | { type: 'update-keyboard-size'; keyboardSize: KeyboardSize }
   | { type: 'play-note'; note: number }
   | { type: 'rest-note'; note: number };
 
@@ -68,10 +72,10 @@ const appReducer = (state: AppState, action: AppAction) => {
         ...state,
         tempo: action.tempo,
       };
-    case 'update-keyboard':
+    case 'update-keyboard-size':
       return {
         ...state,
-        keyboard: action.keyboard,
+        keyboardSize: action.keyboardSize,
       };
     case 'play-note':
       return {

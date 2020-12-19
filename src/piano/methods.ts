@@ -1,12 +1,12 @@
 import {
   MIDDLE_C_NOTE,
   NOTES_PER_OCTAVE,
-  Keyboard,
+  KeyboardSize,
   NOTE_NAMES,
   NATURAL_NOTE_OCTAVE_POSITIONS,
   HORIZONTAL_OFFSETS,
   Hand,
-} from './info';
+} from './constants';
 
 // Computes nonnegative modulo remainder
 const mod = (n: number, m: number) => ((n % m) + m) % m;
@@ -24,8 +24,8 @@ const range = (start: number, end: number) => {
   return nums;
 };
 
-// Maps keyboards to their range of notes
-export const KEYBOARD_NOTE_RANGES: Record<Keyboard, number[]> = {
+// Maps keyboard sizes to their range of notes
+export const KEYBOARD_NOTE_RANGES: Record<KeyboardSize, number[]> = {
   '49-key': range(36, 84),
   '61-key': range(36, 96),
   '76-key': range(28, 103),

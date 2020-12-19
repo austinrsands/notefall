@@ -3,10 +3,15 @@ export const MIN_TEMPO = 10;
 export const MAX_TEMPO = 200;
 export const DEFAULT_TEMPO = 120;
 
-// Keyboard
-export type Keyboard = '49-key' | '61-key' | '76-key' | '88-key';
-export const KEYBOARDS: Keyboard[] = ['49-key', '61-key', '76-key', '88-key'];
-export const DEFAULT_KEYBOARD: Keyboard = '61-key';
+// Keyboard sizes
+export type KeyboardSize = '49-key' | '61-key' | '76-key' | '88-key';
+export const KEYBOARDS_SIZES: KeyboardSize[] = [
+  '49-key',
+  '61-key',
+  '76-key',
+  '88-key',
+];
+export const DEFAULT_KEYBOARD_SIZE: KeyboardSize = '61-key';
 
 // Keys
 export const WHITE_KEY_WIDTH_HEIGHT_RATIO = 1 / 4;

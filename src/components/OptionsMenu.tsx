@@ -12,7 +12,7 @@ import { StyleProps } from '../styles/style';
 import WaitModeSwitch from './WaitModeSwitch';
 import Option from './Option';
 import TempoSlider from './TempoSlider';
-import KeyboardSelect from './KeyboardSelect';
+import KeyboardSizeSelect from './KeyboardSizeSelect';
 
 const useStyles = makeStyles({
   title: {
@@ -59,8 +59,8 @@ const OptionsMenu: React.FC<Props & StyleProps> = ({
         <Option title="Tempo" className={classes.option}>
           <TempoSlider className={classes.input} />
         </Option>
-        <Option title="Keyboard" className={classes.option}>
-          <KeyboardSelect className={classes.input} />
+        <Option title="Keyboard Size" className={classes.option}>
+          <KeyboardSizeSelect className={classes.input} />
         </Option>
       </DialogContent>
       <DialogActions>
