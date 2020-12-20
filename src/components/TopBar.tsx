@@ -13,6 +13,7 @@ const useStyles = makeStyles({
     padding: '0.7rem 1rem',
     display: 'flex',
     alignItems: 'center',
+    flexWrap: 'wrap',
   },
   left: {
     display: 'flex',

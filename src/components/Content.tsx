@@ -7,10 +7,7 @@ import StyleProps from '../interfaces/StyleProps';
 import DeviceManager from './DeviceManager';
 
 const useStyles = makeStyles({
-  root: {
-    height: '100vh',
-    minWidth: '800px',
-  },
+  root: {},
   sketch: {
     position: 'fixed',
   },

@@ -4,10 +4,10 @@ const drawRoundedRect = (
   y: number,
   w: number,
   h: number,
-  r0: number,
-  r1: number,
-  r2: number,
-  r3: number,
+  r0: number, // Top left
+  r1: number, // Top right
+  r2: number, // Bottom right
+  r3: number, // Bottom left
 ) => {
   // Clamp radius
   r0 = Math.min(r0, w / 2, h / 2);
