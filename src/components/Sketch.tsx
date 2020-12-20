@@ -26,9 +26,15 @@ const Sketch: React.FC<StyleProps> = ({ className, style }) => {
       drawBackground(context, width, height);
       // TODO: Draw Octave Lines
       // TODO: Draw Notes
-      drawKeyboard(context, width, height, appState.keyboardSize);
+      drawKeyboard(
+        context,
+        width,
+        height,
+        appState.keyboardSize,
+        appState.notes,
+      );
     },
-    [appState.keyboardSize],
+    [appState.keyboardSize, appState.notes],
   );
 
   return (

@@ -24,6 +24,7 @@ const DeviceManager: React.FC = () => {
           vertical: 'bottom',
           horizontal: 'center',
         },
+        autoHideDuration: 2000,
       });
     },
     [enqueueSnackbar],
@@ -39,6 +40,7 @@ const DeviceManager: React.FC = () => {
           vertical: 'bottom',
           horizontal: 'center',
         },
+        autoHideDuration: 2000,
       });
     },
     [enqueueSnackbar],

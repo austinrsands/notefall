@@ -1,3 +1,9 @@
+import {
+  PRESSED_WHITE_KEY_COLOR,
+  PRESSED_BLACK_KEY_COLOR,
+  DEFAULT_WHITE_KEY_COLOR,
+  DEFAULT_BLACK_KEY_COLOR,
+} from '../constants/colors';
 import { KeyboardSize, KEYBOARD_NOTE_RANGES } from '../constants/keyboard';
 import {
   BLACK_KEY_TO_WHITE_KEY_WIDTH_RATIO,
@@ -88,4 +94,12 @@ export const generateKeys = (
     if (keyIsNatural) keyX += whiteKeySpace;
   }
   return keys;
+};
+
+// Returns color of given key
+export const keyColor = (key: Key, isPressed: boolean) => {
+  if (isPressed) {
+    return key.isNatural ? PRESSED_WHITE_KEY_COLOR : PRESSED_BLACK_KEY_COLOR;
+  }
+  return key.isNatural ? DEFAULT_WHITE_KEY_COLOR : DEFAULT_BLACK_KEY_COLOR;
 };
