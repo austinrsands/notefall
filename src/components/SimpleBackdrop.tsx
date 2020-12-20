@@ -1,10 +1,8 @@
 import React from 'react';
 import { Backdrop, Box, makeStyles, Typography } from '@material-ui/core';
-import clsx from 'clsx';
 import StyleProps from '../interfaces/StyleProps';
 
 const useStyles = makeStyles({
-  root: {},
   content: {
     dislpay: 'flex',
     flexDirection: 'column',
@@ -35,11 +33,7 @@ const SimpleBackdrop: React.FC<Props & StyleProps> = ({
   const classes = useStyles();
 
   return (
-    <Backdrop
-      className={clsx(classes.root, className)}
-      style={style}
-      open={open}
-    >
+    <Backdrop className={className} style={style} open={open}>
       <Box className={classes.content}>
         <Typography className={classes.title} variant="h2" color="textPrimary">
           {title}
