@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tooltip, IconButton } from '@material-ui/core';
 import GitHubIcon from '@material-ui/icons/GitHub';
-import { StyleProps } from '../styles/style';
+import { StyleProps } from '../styles/props';
 
 const GithubButton: React.FC<StyleProps> = ({ className, style }) => (
   <Tooltip

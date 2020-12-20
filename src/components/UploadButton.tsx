@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Tooltip } from '@material-ui/core';
 import { Midi } from '@tonejs/midi';
-import { StyleProps } from '../styles/style';
+import { StyleProps } from '../styles/props';
 import { useAppContext } from '../contexts/AppContext';
 
 const UploadButton: React.FC<StyleProps> = ({ className, style }) => {

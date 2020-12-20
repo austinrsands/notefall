@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tooltip, IconButton } from '@material-ui/core';
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
-import { StyleProps } from '../styles/style';
+import { StyleProps } from '../styles/props';
 import { useAppContext } from '../contexts/AppContext';
 
 interface Props {

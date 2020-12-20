@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
-import { StyleProps } from '../styles/style';
+import { StyleProps } from '../styles/props';
 import Canvas from './Canvas';
 
 const useStyles = makeStyles({

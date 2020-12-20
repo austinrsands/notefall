@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
-import { StyleProps } from '../styles/style';
+import { StyleProps } from '../styles/props';
 
 const useStyles = makeStyles({
   root: {

@@ -3,7 +3,7 @@ import { Box, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
 import Sketch from './Sketch';
 import TopBar from './TopBar';
-import { StyleProps } from '../styles/style';
+import { StyleProps } from '../styles/props';
 import DeviceManager from './DeviceManager';
 
 const useStyles = makeStyles({

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch } from '@material-ui/core';
-import { StyleProps } from '../styles/style';
+import { StyleProps } from '../styles/props';
 import { useAppContext } from '../contexts/AppContext';
 
 const WaitModeSwitch: React.FC<StyleProps> = ({ className, style }) => {

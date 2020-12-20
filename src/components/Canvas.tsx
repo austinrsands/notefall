@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { StyleProps } from '../styles/style';
+import { StyleProps } from '../styles/props';
 
 const DEVICE_PIXEL_RATIO = window.devicePixelRatio || 1;
 const DEFAULT_TARGET_FRAMERATE = 60;

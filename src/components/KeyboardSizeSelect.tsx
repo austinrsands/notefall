@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextField, MenuItem } from '@material-ui/core';
-import { StyleProps } from '../styles/style';
+import { StyleProps } from '../styles/props';
 import { useAppContext } from '../contexts/AppContext';
 import { KeyboardSize, KEYBOARDS_SIZES } from '../piano/constants';
 

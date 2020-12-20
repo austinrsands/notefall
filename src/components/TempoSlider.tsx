@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import { Slider } from '@material-ui/core';
-import { StyleProps } from '../styles/style';
+import { StyleProps } from '../styles/props';
 import { useAppContext } from '../contexts/AppContext';
 import { MAX_TEMPO, MIN_TEMPO } from '../piano/constants';
 

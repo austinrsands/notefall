@@ -8,7 +8,7 @@ import {
   Button,
   Typography,
 } from '@material-ui/core';
-import { StyleProps } from '../styles/style';
+import { StyleProps } from '../styles/props';
 import WaitModeSwitch from './WaitModeSwitch';
 import Option from './Option';
 import TempoSlider from './TempoSlider';
