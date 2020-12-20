@@ -3,7 +3,7 @@ import { Switch } from '@material-ui/core';
 import StyleProps from '../interfaces/StyleProps';
 import { useAppContext } from '../contexts/AppContext';
 
-const WaitModeSwitch: React.FC<StyleProps> = ({ className, style }) => {
+const WaitModeSwitch: React.FC<StyleProps> = (props) => {
   const { appState, appDispatch } = useAppContext();
 
   // Enables or disables wait mode
@@ -14,12 +14,11 @@ const WaitModeSwitch: React.FC<StyleProps> = ({ className, style }) => {
 
   return (
     <Switch
-      className={className}
-      style={style}
       checked={appState.waitModeEnabled}
       color="primary"
       size="medium"
       onChange={handleWaitModeChange}
+      {...props}
     />
   );
 };

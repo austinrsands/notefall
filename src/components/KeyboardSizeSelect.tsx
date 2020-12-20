@@ -4,7 +4,11 @@ import StyleProps from '../interfaces/StyleProps';
 import { useAppContext } from '../contexts/AppContext';
 import { KeyboardSize, KEYBOARDS_SIZES } from '../constants/keyboard';
 
-const KeyboardSizeSelect: React.FC<StyleProps> = ({ className, style }) => {
+interface Props {
+  disabled?: boolean;
+}
+
+const KeyboardSizeSelect: React.FC<Props & StyleProps> = (props) => {
   const { appState, appDispatch } = useAppContext();
 
   // Selects keyboard size
@@ -17,12 +21,11 @@ const KeyboardSizeSelect: React.FC<StyleProps> = ({ className, style }) => {
 
   return (
     <TextField
-      className={className}
-      style={style}
       fullWidth
       select
       value={appState.keyboardSize}
       onChange={handleChange}
+      {...props}
     >
       {KEYBOARDS_SIZES.map((keyboardSize) => (
         <MenuItem key={keyboardSize} value={keyboardSize}>

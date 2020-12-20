@@ -4,7 +4,7 @@ import { Midi } from '@tonejs/midi';
 import StyleProps from '../interfaces/StyleProps';
 import { useAppContext } from '../contexts/AppContext';
 
-const UploadButton: React.FC<StyleProps> = ({ className, style }) => {
+const UploadButton: React.FC<StyleProps> = (props) => {
   const { appDispatch } = useAppContext();
 
   // Converts uploaded file to MIDI object and sends to context
@@ -33,12 +33,7 @@ const UploadButton: React.FC<StyleProps> = ({ className, style }) => {
   };
 
   return (
-    <Tooltip
-      className={className}
-      style={style}
-      title="Select song"
-      enterDelay={500}
-    >
+    <Tooltip title="Select song" enterDelay={500} {...props}>
       <Button color="primary" variant="contained" component="label">
         Upload
         <input

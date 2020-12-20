@@ -17,13 +17,13 @@ interface Props {
 
 const Option: React.FC<Props & StyleProps> = ({
   className,
-  style,
   title,
   children,
+  ...rest
 }) => {
   const classes = useStyles();
   return (
-    <Box className={clsx(classes.root, className)} style={style}>
+    <Box className={clsx(classes.root, className)} {...rest}>
       <Typography variant="subtitle1">{title}</Typography>
       {children}
     </Box>

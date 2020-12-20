@@ -30,23 +30,11 @@ interface Props {
   open: boolean;
   onClose?: () => void;
 }
-const OptionsMenu: React.FC<Props & StyleProps> = ({
-  className,
-  style,
-  open,
-  onClose,
-}) => {
+const OptionsMenu: React.FC<Props & StyleProps> = ({ onClose, ...rest }) => {
   const classes = useStyles();
 
   return (
-    <Dialog
-      className={className}
-      style={style}
-      open={open}
-      onClose={onClose}
-      maxWidth="xs"
-      fullWidth
-    >
+    <Dialog maxWidth="xs" fullWidth onClose={onClose} {...rest}>
       <DialogTitle disableTypography>
         <Typography variant="h5" className={classes.title}>
           Options

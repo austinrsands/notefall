@@ -4,6 +4,7 @@ import StyleProps from '../interfaces/StyleProps';
 
 const DEVICE_PIXEL_RATIO = window.devicePixelRatio || 1;
 const DEFAULT_TARGET_FRAMERATE = 60;
+
 interface Props {
   targetFramerate?: number;
   setup?: (context: CanvasRenderingContext2D) => void;
@@ -11,11 +12,10 @@ interface Props {
 }
 
 const Canvas: React.FC<Props & StyleProps> = ({
-  className,
-  style,
   targetFramerate = DEFAULT_TARGET_FRAMERATE,
   setup,
   draw,
+  ...rest
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const sizeRef = useRef<Scale>({ width: 0, height: 0 });
@@ -76,7 +76,7 @@ const Canvas: React.FC<Props & StyleProps> = ({
     };
   }, [setup, draw, targetFramerate]);
 
-  return <canvas className={className} style={style} ref={canvasRef} />;
+  return <canvas ref={canvasRef} {...rest} />;
 };
 
 export default Canvas;

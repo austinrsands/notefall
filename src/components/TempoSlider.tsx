@@ -1,10 +1,10 @@
 import React, { ChangeEvent } from 'react';
 import { Slider } from '@material-ui/core';
-import StyleProps from '../interfaces/StyleProps';
 import { useAppContext } from '../contexts/AppContext';
 import { MAX_TEMPO, MIN_TEMPO } from '../constants/tempo';
+import StyleProps from '../interfaces/StyleProps';
 
-const TempoSlider: React.FC<StyleProps> = ({ className, style }) => {
+const TempoSlider: React.FC<StyleProps> = (props) => {
   const { appState, appDispatch } = useAppContext();
 
   // Updates the tempo scale
@@ -17,14 +17,13 @@ const TempoSlider: React.FC<StyleProps> = ({ className, style }) => {
 
   return (
     <Slider
-      className={className}
-      style={style}
       color="primary"
       valueLabelDisplay="off"
       value={appState.tempo}
       min={MIN_TEMPO}
       max={MAX_TEMPO}
       onChange={handleTempoScaleChange}
+      {...props}
     />
   );
 };

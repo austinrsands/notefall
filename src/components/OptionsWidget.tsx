@@ -4,7 +4,7 @@ import StyleProps from '../interfaces/StyleProps';
 import OptionsButton from './OptionsButton';
 import OptionsMenu from './OptionsMenu';
 
-const OptionsWidget: React.FC<StyleProps> = ({ className, style }) => {
+const OptionsWidget: React.FC<StyleProps> = (props) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Opens options menu
@@ -18,7 +18,7 @@ const OptionsWidget: React.FC<StyleProps> = ({ className, style }) => {
   };
 
   return (
-    <Box className={className} style={style}>
+    <Box {...props}>
       <OptionsButton onClick={handleClick} />
       <OptionsMenu onClose={handleClose} open={isMenuOpen} />
     </Box>

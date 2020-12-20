@@ -9,12 +9,11 @@ interface Props {
 }
 
 const OptionsButton: React.FC<Props & StyleProps> = ({
-  className,
-  style,
   onClick,
   disabled,
+  ...rest
 }) => (
-  <Tooltip className={className} style={style} title="Options" enterDelay={500}>
+  <Tooltip title="Options" enterDelay={500} {...rest}>
     <IconButton size="medium" onClick={onClick} disabled={disabled}>
       <TuneRoundedIcon />
     </IconButton>

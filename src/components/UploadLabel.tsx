@@ -10,16 +10,16 @@ const useStyles = makeStyles({
   },
 });
 
-const UploadLabel: React.FC<StyleProps> = ({ className, style }) => {
+const UploadLabel: React.FC<StyleProps> = ({ className, ...rest }) => {
   const classes = useStyles();
   const { appState } = useAppContext();
 
   return (
     <Typography
       className={clsx(classes.root, className)}
-      style={style}
       variant="body2"
       color="textSecondary"
+      {...rest}
     >
       {appState.song?.name || 'no file uploaded'}
     </Typography>

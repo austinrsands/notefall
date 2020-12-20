@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Sketch: React.FC<StyleProps> = ({ className, style }) => {
+const Sketch: React.FC<StyleProps> = ({ className, ...rest }) => {
   const classes = useStyles();
   const { appState } = useAppContext();
 
@@ -38,11 +38,7 @@ const Sketch: React.FC<StyleProps> = ({ className, style }) => {
   );
 
   return (
-    <Canvas
-      className={clsx(classes.root, className)}
-      style={style}
-      draw={draw}
-    />
+    <Canvas className={clsx(classes.root, className)} draw={draw} {...rest} />
   );
 };
 

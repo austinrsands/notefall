@@ -8,11 +8,7 @@ interface Props {
   disabled?: boolean;
 }
 
-const ReplayButton: React.FC<Props & StyleProps> = ({
-  className,
-  style,
-  disabled,
-}) => {
+const ReplayButton: React.FC<Props & StyleProps> = ({ disabled, ...rest }) => {
   const { appDispatch } = useAppContext();
 
   // Restarts song
@@ -21,12 +17,7 @@ const ReplayButton: React.FC<Props & StyleProps> = ({
   };
 
   return (
-    <Tooltip
-      className={className}
-      style={style}
-      title="Replay song"
-      enterDelay={500}
-    >
+    <Tooltip title="Replay song" enterDelay={500} {...rest}>
       <IconButton size="medium" onClick={handleClick} disabled={disabled}>
         <ReplayRoundedIcon />
       </IconButton>

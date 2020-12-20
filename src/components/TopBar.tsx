@@ -38,11 +38,11 @@ const useStyles = makeStyles({
   },
 });
 
-const TopBar: React.FC<StyleProps> = ({ className, style }) => {
+const TopBar: React.FC<StyleProps> = ({ className, ...rest }) => {
   const classes = useStyles();
 
   return (
-    <Box className={clsx(classes.root, className)} style={style}>
+    <Box className={clsx(classes.root, className)} {...rest}>
       <Box className={classes.left}>
         <UploadWidget />
       </Box>

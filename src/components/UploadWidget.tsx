@@ -15,11 +15,11 @@ const useStyles = makeStyles({
   },
 });
 
-const UploadWidget: React.FC<StyleProps> = ({ className, style }) => {
+const UploadWidget: React.FC<StyleProps> = ({ className, ...rest }) => {
   const classes = useStyles();
 
   return (
-    <Box className={clsx(classes.root, className)} style={style}>
+    <Box className={clsx(classes.root, className)} {...rest}>
       <UploadButton />
       <UploadLabel className={classes.label} />
     </Box>

@@ -2,8 +2,8 @@ import React from 'react';
 import { Box, makeStyles } from '@material-ui/core';
 import Sketch from './Sketch';
 import TopBar from './TopBar';
-import StyleProps from '../interfaces/StyleProps';
 import DeviceManager from './DeviceManager';
+import StyleProps from '../interfaces/StyleProps';
 
 const useStyles = makeStyles({
   sketch: {
@@ -11,10 +11,10 @@ const useStyles = makeStyles({
   },
 });
 
-const Content: React.FC<StyleProps> = ({ className, style }) => {
+const Content: React.FC<StyleProps> = (props) => {
   const classes = useStyles();
   return (
-    <Box className={className} style={style}>
+    <Box {...props}>
       <Sketch className={classes.sketch} />
       <TopBar />
       <DeviceManager />

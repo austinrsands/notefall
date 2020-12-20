@@ -11,9 +11,8 @@ interface Props {
 }
 
 const PlayPauseButton: React.FC<Props & StyleProps> = ({
-  className,
-  style,
   disabled,
+  ...rest
 }) => {
   const [isPaused, setIsPaused] = useState(DEFAULT_APP_STATE.isPaused);
   const { appDispatch } = useAppContext();
@@ -27,10 +26,9 @@ const PlayPauseButton: React.FC<Props & StyleProps> = ({
 
   return (
     <Tooltip
-      className={className}
-      style={style}
       title={isPaused ? 'Play song' : 'Pause song'}
       enterDelay={500}
+      {...rest}
     >
       <IconButton size="medium" onClick={handleClick} disabled={disabled}>
         {isPaused ? <PlayArrowRoundedIcon /> : <PauseRoundedIcon />}

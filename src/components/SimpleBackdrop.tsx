@@ -24,16 +24,14 @@ interface Props {
 }
 
 const SimpleBackdrop: React.FC<Props & StyleProps> = ({
-  className,
-  style,
-  open,
   title,
   subtitle,
+  ...rest
 }) => {
   const classes = useStyles();
 
   return (
-    <Backdrop className={className} style={style} open={open}>
+    <Backdrop {...rest}>
       <Box className={classes.content}>
         <Typography className={classes.title} variant="h2" color="textPrimary">
           {title}
