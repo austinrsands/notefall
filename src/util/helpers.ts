@@ -7,8 +7,11 @@ import {
 import { KeyboardSize, KEYBOARD_NOTE_RANGES } from '../constants/keyboard';
 import {
   BLACK_KEY_TO_WHITE_KEY_WIDTH_RATIO,
+  BLACK_KEY_VERTICAL_OFFSET_TO_HEIGHT,
   BLACK_KEY_WIDTH_TO_HEIGHT_RATIO,
+  BOTTOM_CORNER_RADIUS_TO_WHITE_KEY_WIDTH,
   KEY_OFFSETS,
+  TOP_CORNER_RADIUS_TO_WHITE_KEY_WIDTH,
   WHITE_KEY_SPACE_TO_WIDTH_RATIO,
   WHITE_KEY_WIDTH_TO_HEIGHT_RATIO,
 } from '../constants/keys';
@@ -74,16 +77,31 @@ export const generateKeys = (
   // Build keys
   const keys: Key[] = [];
   let keyX = whiteKeySpace / 2;
-  const key = height - whiteKeyHeight;
+  const keyY = height - whiteKeyHeight;
   for (let note = noteRange.min; note <= noteRange.max; note++) {
+    // Determine properties
     const keyIsNatural = isNatural(note);
     const keyWidth = keyIsNatural ? whiteKeyWidth : blackKeyWidth;
     const keyHeight = keyIsNatural ? whiteKeyHeight : blackKeyHeight;
+    const keyVerticalOffset = keyIsNatural
+      ? 0
+      : blackKeyHeight * BLACK_KEY_VERTICAL_OFFSET_TO_HEIGHT;
+    const topCornerRadius = keyWidth * TOP_CORNER_RADIUS_TO_WHITE_KEY_WIDTH;
+    const bottomCornerRadius =
+      keyWidth * BOTTOM_CORNER_RADIUS_TO_WHITE_KEY_WIDTH;
+
+    // Push key to array
     keys.push({
       note,
       isNatural: keyIsNatural,
-      position: { x: keyX, y: key },
+      position: { x: keyX, y: keyY - keyVerticalOffset },
       scale: { width: keyWidth, height: keyHeight },
+      cornerRadii: {
+        topLeft: topCornerRadius,
+        topRight: topCornerRadius,
+        bottomRight: bottomCornerRadius,
+        bottomLeft: bottomCornerRadius,
+      },
     });
 
     // Increment x position of key by the relative offset of the next key

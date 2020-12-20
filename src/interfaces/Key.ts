@@ -1,3 +1,4 @@
+import CornerRadii from './CornerRadii';
 import Position from './Position';
 import Scale from './Scale';
 
@@ -6,6 +7,7 @@ interface Key {
   isNatural: boolean;
   position: Position;
   scale: Scale;
+  cornerRadii: CornerRadii;
 }
 
 export default Key;
