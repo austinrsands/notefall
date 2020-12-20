@@ -1,8 +1,8 @@
 import React, { ChangeEvent } from 'react';
 import { Slider } from '@material-ui/core';
-import { StyleProps } from '../styles/props';
+import StyleProps from '../interfaces/StyleProps';
 import { useAppContext } from '../contexts/AppContext';
-import { MAX_TEMPO, MIN_TEMPO } from '../piano/constants';
+import { MAX_TEMPO, MIN_TEMPO } from '../constants/tempo';
 
 const TempoSlider: React.FC<StyleProps> = ({ className, style }) => {
   const { appState, appDispatch } = useAppContext();

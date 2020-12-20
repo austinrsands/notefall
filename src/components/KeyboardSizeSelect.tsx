@@ -1,8 +1,8 @@
 import React from 'react';
 import { TextField, MenuItem } from '@material-ui/core';
-import { StyleProps } from '../styles/props';
+import StyleProps from '../interfaces/StyleProps';
 import { useAppContext } from '../contexts/AppContext';
-import { KeyboardSize, KEYBOARDS_SIZES } from '../piano/constants';
+import { KeyboardSize, KEYBOARDS_SIZES } from '../constants/keyboard';
 
 const KeyboardSizeSelect: React.FC<StyleProps> = ({ className, style }) => {
   const { appState, appDispatch } = useAppContext();

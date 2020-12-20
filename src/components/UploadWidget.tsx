@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
-import { StyleProps } from '../styles/props';
+import StyleProps from '../interfaces/StyleProps';
 import UploadButton from './UploadButton';
 import UploadLabel from './UploadLabel';
 

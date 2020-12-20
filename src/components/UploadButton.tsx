@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Tooltip } from '@material-ui/core';
 import { Midi } from '@tonejs/midi';
-import { StyleProps } from '../styles/props';
+import StyleProps from '../interfaces/StyleProps';
 import { useAppContext } from '../contexts/AppContext';
 
 const UploadButton: React.FC<StyleProps> = ({ className, style }) => {
@@ -29,7 +29,6 @@ const UploadButton: React.FC<StyleProps> = ({ className, style }) => {
     appDispatch({ type: 'upload', song });
 
     // Allow same file to be uploaded again
-    // eslint-disable-next-line no-param-reassign
     event.target.value = '';
   };
 

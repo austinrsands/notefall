@@ -1,26 +1,13 @@
 import React, { useEffect, useRef } from 'react';
-import { StyleProps } from '../styles/props';
+import Scale from '../interfaces/Scale';
+import StyleProps from '../interfaces/StyleProps';
 
 const DEVICE_PIXEL_RATIO = window.devicePixelRatio || 1;
 const DEFAULT_TARGET_FRAMERATE = 60;
-
-interface Size {
-  width: number;
-  height: number;
-}
-
 interface Props {
   targetFramerate?: number;
-  setup?: (
-    context: CanvasRenderingContext2D,
-    width: number,
-    height: number,
-  ) => void;
-  draw?: (
-    context: CanvasRenderingContext2D,
-    width: number,
-    height: number,
-  ) => void;
+  setup?: (context: CanvasRenderingContext2D) => void;
+  draw?: (context: CanvasRenderingContext2D) => void;
 }
 
 const Canvas: React.FC<Props & StyleProps> = ({
@@ -31,12 +18,16 @@ const Canvas: React.FC<Props & StyleProps> = ({
   draw,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const sizeRef = useRef<Size>({ width: 0, height: 0 });
+  const sizeRef = useRef<Scale>({ width: 0, height: 0 });
 
   // Updates canvas
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas?.getContext('2d');
+
+    // Used for cancelling animation requests and timeout
+    let requestID: number;
+    let timeoutID: number;
 
     // Check if canvas and context are defined
     if (canvas && context) {
@@ -58,7 +49,7 @@ const Canvas: React.FC<Props & StyleProps> = ({
       resizeCanvas();
 
       // Call setup if defined
-      if (setup) setup(context, sizeRef.current.width, sizeRef.current.height);
+      if (setup) setup(context);
 
       // Animation loop
       const animate = () => {
@@ -66,17 +57,23 @@ const Canvas: React.FC<Props & StyleProps> = ({
         resizeCanvas();
 
         // Reanimate based on target framerate
-        setTimeout(() => {
-          requestAnimationFrame(animate);
+        timeoutID = setTimeout(() => {
+          requestID = requestAnimationFrame(animate);
         }, 1000 / targetFramerate);
 
         // Call draw if defined
-        if (draw) draw(context, sizeRef.current.width, sizeRef.current.height);
+        if (draw) draw(context);
       };
 
       // Initiate animation loop
       animate();
     }
+
+    return () => {
+      // Cancel animation request and timeout if necessary
+      if (requestID) cancelAnimationFrame(requestID);
+      if (timeoutID) clearTimeout(timeoutID);
+    };
   }, [setup, draw, targetFramerate]);
 
   return <canvas className={className} style={style} ref={canvasRef} />;

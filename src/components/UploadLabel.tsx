@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
-import { StyleProps } from '../styles/props';
+import StyleProps from '../interfaces/StyleProps';
 import { useAppContext } from '../contexts/AppContext';
 
 const useStyles = makeStyles({

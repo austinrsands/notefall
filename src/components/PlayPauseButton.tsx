@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Tooltip, IconButton } from '@material-ui/core';
 import PauseRoundedIcon from '@material-ui/icons/PauseRounded';
 import PlayArrowRoundedIcon from '@material-ui/icons/PlayArrowRounded';
-import { StyleProps } from '../styles/props';
+import StyleProps from '../interfaces/StyleProps';
 import { useAppContext } from '../contexts/AppContext';
 import { DEFAULT_APP_STATE } from '../reducers/appReducer';
 

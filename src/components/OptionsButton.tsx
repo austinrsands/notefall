@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tooltip, IconButton } from '@material-ui/core';
 import TuneRoundedIcon from '@material-ui/icons/TuneRounded';
-import { StyleProps } from '../styles/props';
+import StyleProps from '../interfaces/StyleProps';
 
 interface Props {
   onClick?: () => void;

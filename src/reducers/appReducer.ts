@@ -1,9 +1,6 @@
 import { Midi } from '@tonejs/midi';
-import {
-  DEFAULT_KEYBOARD_SIZE,
-  DEFAULT_TEMPO,
-  KeyboardSize,
-} from '../piano/constants';
+import { DEFAULT_KEYBOARD_SIZE, KeyboardSize } from '../constants/keyboard';
+import { DEFAULT_TEMPO } from '../constants/tempo';
 
 export interface AppState {
   isPaused: boolean;

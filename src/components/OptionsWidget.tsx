@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box } from '@material-ui/core';
-import { StyleProps } from '../styles/props';
+import StyleProps from '../interfaces/StyleProps';
 import OptionsButton from './OptionsButton';
 import OptionsMenu from './OptionsMenu';
 
