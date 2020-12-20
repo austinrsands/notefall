@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     fontWeight: 'bold',
   },
   option: {
-    padding: '0.8rem 0.8rem',
+    padding: '0.5rem 0.8rem',
   },
   input: {
     maxWidth: '60%',
