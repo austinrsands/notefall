@@ -12,6 +12,7 @@ const GithubButton: React.FC<Props & StyleProps> = (props) => (
     <IconButton
       href="https://github.com/austinrsands/notefall"
       target="_blank"
+      size="medium"
       {...props}
     >
       <GitHubIcon />

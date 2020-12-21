@@ -13,6 +13,7 @@ import WaitModeSwitch from './WaitModeSwitch';
 import Option from './Option';
 import TempoSlider from './TempoSlider';
 import KeyboardSizeSelect from './KeyboardSizeSelect';
+import TransposeCounter from './TransposeCounter';
 
 const useStyles = makeStyles({
   title: {
@@ -47,8 +48,11 @@ const OptionsMenu: React.FC<Props & StyleProps> = ({ onClose, ...rest }) => {
         <Option title="Tempo" className={classes.option}>
           <TempoSlider className={classes.input} />
         </Option>
-        <Option title="Keyboard Size" className={classes.option}>
+        <Option title="Keyboard size" className={classes.option}>
           <KeyboardSizeSelect className={classes.input} />
+        </Option>
+        <Option title="Transpose" className={classes.option}>
+          <TransposeCounter className={classes.input} />
         </Option>
       </DialogContent>
       <DialogActions>
