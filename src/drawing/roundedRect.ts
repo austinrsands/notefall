@@ -10,7 +10,7 @@ const drawRoundedRect = (
 ) => {
   let { topLeft, topRight, bottomRight, bottomLeft } = cornerRadii;
 
-  // Clamp radius
+  // Clamp radii
   topLeft = Math.min(topLeft, scale.width / 2, scale.height / 2);
   topRight = Math.min(topRight, scale.width / 2, scale.height / 2);
   bottomRight = Math.min(bottomRight, scale.width / 2, scale.height / 2);
