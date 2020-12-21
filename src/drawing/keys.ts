@@ -8,14 +8,7 @@ const drawKey = (
   isPressed: boolean,
 ) => {
   context.fillStyle = keyColor(key, isPressed);
-  drawRoundedRect(
-    context,
-    key.position.x,
-    key.position.y,
-    key.scale.width,
-    key.scale.height,
-    key.cornerRadii,
-  );
+  drawRoundedRect(context, key.position, key.scale, key.cornerRadii);
   context.fill();
 };
 

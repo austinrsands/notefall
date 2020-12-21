@@ -7,18 +7,20 @@ const DEFAULT_TARGET_FRAMERATE = 60;
 
 interface Props {
   targetFramerate?: number;
-  setup?: (context: CanvasRenderingContext2D) => void;
-  draw?: (context: CanvasRenderingContext2D) => void;
+  onSetup?: (context: CanvasRenderingContext2D) => void;
+  onDraw?: (context: CanvasRenderingContext2D) => void;
+  onResize?: (scale: Scale) => void;
 }
 
 const Canvas: React.FC<Props & StyleProps> = ({
   targetFramerate = DEFAULT_TARGET_FRAMERATE,
-  setup,
-  draw,
+  onSetup,
+  onDraw,
+  onResize,
   ...rest
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const sizeRef = useRef<Scale>({ width: 0, height: 0 });
+  const scaleRef = useRef<Scale>({ width: 0, height: 0 });
 
   // Updates canvas
   useEffect(() => {
@@ -35,13 +37,21 @@ const Canvas: React.FC<Props & StyleProps> = ({
       const resizeCanvas = () => {
         const { width, height } = canvas.getBoundingClientRect();
         if (
-          sizeRef.current?.width !== width ||
-          sizeRef.current?.height !== height
+          scaleRef.current?.width !== width ||
+          scaleRef.current?.height !== height
         ) {
+          // Resize canvas
           canvas.width = width * DEVICE_PIXEL_RATIO;
           canvas.height = height * DEVICE_PIXEL_RATIO;
+
+          // Scale context
           context.scale(DEVICE_PIXEL_RATIO, DEVICE_PIXEL_RATIO);
-          sizeRef.current = { width, height };
+
+          // Update scale ref
+          scaleRef.current = { width, height };
+
+          // Call resize prop
+          if (onResize) onResize(scaleRef.current);
         }
       };
 
@@ -49,7 +59,7 @@ const Canvas: React.FC<Props & StyleProps> = ({
       resizeCanvas();
 
       // Call setup if defined
-      if (setup) setup(context);
+      if (onSetup) onSetup(context);
 
       // Animation loop
       const animate = () => {
@@ -62,7 +72,7 @@ const Canvas: React.FC<Props & StyleProps> = ({
         }, 1000 / targetFramerate);
 
         // Call draw if defined
-        if (draw) draw(context);
+        if (onDraw) onDraw(context);
       };
 
       // Initiate animation loop
@@ -74,7 +84,7 @@ const Canvas: React.FC<Props & StyleProps> = ({
       if (requestID) cancelAnimationFrame(requestID);
       if (timeoutID) clearTimeout(timeoutID);
     };
-  }, [setup, draw, targetFramerate]);
+  }, [targetFramerate, onSetup, onDraw, onResize]);
 
   return <canvas ref={canvasRef} {...rest} />;
 };

@@ -5,16 +5,7 @@ import {
   DEFAULT_BLACK_KEY_COLOR,
 } from '../constants/colors';
 import { KeyboardSize, KEYBOARD_NOTE_RANGES } from '../constants/keyboard';
-import {
-  BLACK_KEY_TO_WHITE_KEY_WIDTH_RATIO,
-  BLACK_KEY_VERTICAL_OFFSET_TO_HEIGHT,
-  BLACK_KEY_WIDTH_TO_HEIGHT_RATIO,
-  BOTTOM_CORNER_RADIUS_TO_WHITE_KEY_WIDTH,
-  KEY_OFFSETS,
-  TOP_CORNER_RADIUS_TO_WHITE_KEY_WIDTH,
-  WHITE_KEY_SPACE_TO_WIDTH_RATIO,
-  WHITE_KEY_WIDTH_TO_HEIGHT_RATIO,
-} from '../constants/keys';
+import { KEY_OFFSETS } from '../constants/keys';
 import {
   MIDDLE_C_NOTE,
   NOTES_PER_OCTAVE,
@@ -42,82 +33,23 @@ export const isNatural = (note: number) =>
 export const horizontalOffset = (note: number) =>
   KEY_OFFSETS[octaveIndex(note)];
 
+// Returns the range of notes for the given transposed keyboard
+export const noteRange = (keyboardSize: KeyboardSize, transpose: number) => {
+  const octaveOffset = transpose * NOTES_PER_OCTAVE;
+  const untransposedNoteRange = KEYBOARD_NOTE_RANGES[keyboardSize];
+  return {
+    min: untransposedNoteRange.min + octaveOffset,
+    max: untransposedNoteRange.max + octaveOffset,
+  };
+};
+
 // Returns the number of white keys in the given note range
-export const numWhiteKeysInRange = (noteRange: NoteRange) => {
+export const numWhiteKeysInRange = (range: NoteRange) => {
   let count = 0;
-  for (let note = noteRange.min; note <= noteRange.max; note++) {
+  for (let note = range.min; note <= range.max; note++) {
     if (isNatural(note)) count += 1;
   }
   return count;
-};
-
-// Used to separate black keys from white
-export const compareKeys = (a: Key, b: Key) => {
-  if (a.isNatural && !b.isNatural) return -1;
-  if (!a.isNatural && b.isNatural) return 1;
-  return 0;
-};
-
-// Returns list of key objects
-export const generateKeys = (
-  width: number,
-  height: number,
-  keyboardSize: KeyboardSize,
-  transpose: number,
-) => {
-  // Calculate dimensions
-  const noteRange = KEYBOARD_NOTE_RANGES[keyboardSize];
-  const numWhiteKeys = numWhiteKeysInRange(noteRange);
-  const whiteKeyWidth =
-    width / (numWhiteKeys + numWhiteKeys * WHITE_KEY_SPACE_TO_WIDTH_RATIO);
-  const whiteKeyHeight = whiteKeyWidth / WHITE_KEY_WIDTH_TO_HEIGHT_RATIO;
-  const blackKeyWidth = whiteKeyWidth * BLACK_KEY_TO_WHITE_KEY_WIDTH_RATIO;
-  const blackKeyHeight = blackKeyWidth / BLACK_KEY_WIDTH_TO_HEIGHT_RATIO;
-  const whiteKeySpace = whiteKeyWidth * WHITE_KEY_SPACE_TO_WIDTH_RATIO;
-  const octaveOffset = transpose * NOTES_PER_OCTAVE;
-
-  // Build keys
-  const keys: Key[] = [];
-  let keyX = whiteKeySpace / 2;
-  const keyY = height - whiteKeyHeight;
-  for (
-    let note = noteRange.min + octaveOffset;
-    note <= noteRange.max + octaveOffset;
-    note++
-  ) {
-    // Determine properties
-    const keyIsNatural = isNatural(note);
-    const keyWidth = keyIsNatural ? whiteKeyWidth : blackKeyWidth;
-    const keyHeight = keyIsNatural ? whiteKeyHeight : blackKeyHeight;
-    const keyVerticalOffset = keyIsNatural
-      ? 0
-      : blackKeyHeight * BLACK_KEY_VERTICAL_OFFSET_TO_HEIGHT;
-    const topCornerRadius = keyWidth * TOP_CORNER_RADIUS_TO_WHITE_KEY_WIDTH;
-    const bottomCornerRadius =
-      keyWidth * BOTTOM_CORNER_RADIUS_TO_WHITE_KEY_WIDTH;
-
-    // Push key to array
-    keys.push({
-      note,
-      isNatural: keyIsNatural,
-      position: { x: keyX, y: keyY - keyVerticalOffset },
-      scale: { width: keyWidth, height: keyHeight },
-      cornerRadii: {
-        topLeft: topCornerRadius,
-        topRight: topCornerRadius,
-        bottomRight: bottomCornerRadius,
-        bottomLeft: bottomCornerRadius,
-      },
-    });
-
-    // Increment x position of key by the relative offset of the next key
-    const xOffset = horizontalOffset(note + 1);
-    if (xOffset) keyX += xOffset * whiteKeyWidth;
-
-    // Handle spacing
-    if (keyIsNatural) keyX += whiteKeySpace;
-  }
-  return keys;
 };
 
 // Returns color of given key
