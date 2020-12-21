@@ -31,10 +31,11 @@ const Sketch: React.FC<StyleProps> = ({ className, ...rest }) => {
         width,
         height,
         appState.keyboardSize,
+        appState.transpose,
         appState.notes,
       );
     },
-    [appState.keyboardSize, appState.notes],
+    [appState.keyboardSize, appState.notes, appState.transpose],
   );
 
   return (

@@ -63,6 +63,7 @@ export const generateKeys = (
   width: number,
   height: number,
   keyboardSize: KeyboardSize,
+  transpose: number,
 ) => {
   // Calculate dimensions
   const noteRange = KEYBOARD_NOTE_RANGES[keyboardSize];
@@ -73,12 +74,17 @@ export const generateKeys = (
   const blackKeyWidth = whiteKeyWidth * BLACK_KEY_TO_WHITE_KEY_WIDTH_RATIO;
   const blackKeyHeight = blackKeyWidth / BLACK_KEY_WIDTH_TO_HEIGHT_RATIO;
   const whiteKeySpace = whiteKeyWidth * WHITE_KEY_SPACE_TO_WIDTH_RATIO;
+  const octaveOffset = transpose * NOTES_PER_OCTAVE;
 
   // Build keys
   const keys: Key[] = [];
   let keyX = whiteKeySpace / 2;
   const keyY = height - whiteKeyHeight;
-  for (let note = noteRange.min; note <= noteRange.max; note++) {
+  for (
+    let note = noteRange.min + octaveOffset;
+    note <= noteRange.max + octaveOffset;
+    note++
+  ) {
     // Determine properties
     const keyIsNatural = isNatural(note);
     const keyWidth = keyIsNatural ? whiteKeyWidth : blackKeyWidth;
