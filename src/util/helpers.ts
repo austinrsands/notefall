@@ -4,7 +4,7 @@ import {
   DEFAULT_WHITE_KEY_COLOR,
   DEFAULT_BLACK_KEY_COLOR,
 } from '../constants/colors';
-import { KeyboardSize, KEYBOARD_NOTE_RANGES } from '../constants/keyboard';
+import { KEYBOARD_NOTE_RANGES } from '../constants/keyboard';
 import { KEY_OFFSETS } from '../constants/keys';
 import {
   MIDDLE_C_NOTE,
@@ -14,6 +14,7 @@ import {
 } from '../constants/notes';
 import Key from '../interfaces/Key';
 import NoteRange from '../interfaces/NoteRange';
+import KeyboardSize from '../types/KeyboardSize';
 
 // Computes nonnegative modulo remainder
 const mod = (n: number, m: number) => ((n % m) + m) % m;

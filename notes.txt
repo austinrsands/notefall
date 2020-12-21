@@ -1,0 +1,7 @@
+Todo:
+- note generation
+- note movement
+- scrolling
+- wait mode
+- replay
+- loop

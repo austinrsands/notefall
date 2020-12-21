@@ -1,7 +1,8 @@
 import { Midi } from '@tonejs/midi';
-import { DEFAULT_KEYBOARD_SIZE, KeyboardSize } from '../constants/keyboard';
+import { DEFAULT_KEYBOARD_SIZE } from '../constants/keyboard';
 import { DEFAULT_TEMPO } from '../constants/tempo';
 import { DEFAULT_TRANSPOSE } from '../constants/transpose';
+import KeyboardSize from '../types/KeyboardSize';
 
 export interface AppState {
   isPaused: boolean;

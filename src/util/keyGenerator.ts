@@ -1,4 +1,3 @@
-import { KeyboardSize } from '../constants/keyboard';
 import {
   WHITE_KEY_SPACE_TO_WIDTH_RATIO,
   WHITE_KEY_WIDTH_TO_HEIGHT_RATIO,
@@ -10,6 +9,7 @@ import {
 } from '../constants/keys';
 import Key from '../interfaces/Key';
 import Scale from '../interfaces/Scale';
+import KeyboardSize from '../types/KeyboardSize';
 import {
   numWhiteKeysInRange,
   isNatural,
