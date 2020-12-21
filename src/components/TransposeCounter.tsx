@@ -1,5 +1,5 @@
 import React from 'react';
-import { MAX_TRANSPOSE, MIN_TRANSPOSE } from '../constants/keyboard';
+import { MAX_TRANSPOSE, MIN_TRANSPOSE } from '../constants/transpose';
 import { useAppContext } from '../contexts/AppContext';
 import StyleProps from '../interfaces/StyleProps';
 import Counter from './Counter';
