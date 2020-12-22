@@ -5,10 +5,13 @@ import StyleProps from '../interfaces/StyleProps';
 import { useAppContext } from '../contexts/AppContext';
 import drawBackground from '../drawing/background';
 import drawKeyboard from '../drawing/keyboard';
-import Key from '../interfaces/Key';
-import generateKeys from '../util/keyGenerator';
-import Scale from '../interfaces/Scale';
+import Size from '../interfaces/Size';
 import Canvas from './Canvas';
+import NoteBlock from '../interfaces/NoteBlock';
+import generateNoteBlocks from '../generators/noteBlocksGenerator';
+import drawNoteBlocks from '../drawing/noteBlocks';
+import Keyboard from '../interfaces/Keyboard';
+import generateKeyboard from '../generators/keyboardGenerator';
 
 const useStyles = makeStyles({
   root: {
@@ -21,16 +24,23 @@ const useStyles = makeStyles({
 const Sketch: React.FC<StyleProps> = ({ className, ...rest }) => {
   const classes = useStyles();
   const { appState } = useAppContext();
-  const [scale, setScale] = useState<Scale>({ width: 0, height: 0 });
+  const [size, setSize] = useState<Size | undefined>();
 
-  const keys: Key[] = useMemo(
-    () => generateKeys(scale, appState.keyboardSize, appState.transpose),
-    [appState.keyboardSize, appState.transpose, scale],
-  );
+  const keyboard: Keyboard | null = useMemo(() => {
+    if (size)
+      return generateKeyboard(size, appState.keyboardType, appState.transpose);
+    return null;
+  }, [appState.keyboardType, appState.transpose, size]);
+
+  const noteBlocks: NoteBlock[] | null = useMemo(() => {
+    if (appState.song && keyboard)
+      return generateNoteBlocks(appState.song, keyboard);
+    return null;
+  }, [appState.song, keyboard]);
 
   // Regenerates keys when necessary
-  const handleResize = useCallback((canvasScale: Scale) => {
-    setScale(canvasScale);
+  const handleResize = useCallback((canvasSize: Size) => {
+    setSize(canvasSize);
   }, []);
 
   // Gets called every frame
@@ -38,11 +48,10 @@ const Sketch: React.FC<StyleProps> = ({ className, ...rest }) => {
     (context: CanvasRenderingContext2D) => {
       const { width, height } = context.canvas.getBoundingClientRect();
       drawBackground(context, { width, height });
-      // TODO: Draw Octave Lines
-      // TODO: Draw Notes
-      drawKeyboard(context, keys, appState.notes);
+      if (noteBlocks) drawNoteBlocks(context, noteBlocks, appState.notes);
+      if (keyboard) drawKeyboard(context, keyboard.keys, appState.notes);
     },
-    [appState.notes, keys],
+    [appState.notes, keyboard, noteBlocks],
   );
 
   return (

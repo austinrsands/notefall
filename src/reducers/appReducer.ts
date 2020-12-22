@@ -1,13 +1,19 @@
 import { Midi } from '@tonejs/midi';
-import { DEFAULT_KEYBOARD_SIZE, KeyboardSize } from '../constants/keyboard';
-import { DEFAULT_TEMPO } from '../constants/tempo';
-import { DEFAULT_TRANSPOSE } from '../constants/transpose';
+import {
+  DEFAULT_TEMPO,
+  DEFAULT_KEYBOARD_SIZE,
+  DEFAULT_TRANSPOSE,
+  DEFAULT_GAME_MODE,
+} from '../constants/options';
+import GameMode from '../enums/GameMode';
+import KeyboardType from '../enums/KeyboardType';
+import Note from '../types/Note';
 
 export interface AppState {
   isPaused: boolean;
-  waitModeEnabled: boolean;
+  mode: GameMode;
   tempo: number;
-  keyboardSize: KeyboardSize;
+  keyboardType: KeyboardType;
   transpose: number;
   notes: number[];
   song?: Midi;
@@ -15,9 +21,9 @@ export interface AppState {
 
 export const DEFAULT_APP_STATE: AppState = {
   isPaused: true,
-  waitModeEnabled: true,
+  mode: DEFAULT_GAME_MODE,
   tempo: DEFAULT_TEMPO,
-  keyboardSize: DEFAULT_KEYBOARD_SIZE,
+  keyboardType: DEFAULT_KEYBOARD_SIZE,
   transpose: DEFAULT_TRANSPOSE,
   notes: [],
 };
@@ -27,13 +33,12 @@ export type AppAction =
   | { type: 'pause' }
   | { type: 'restart' }
   | { type: 'upload'; song: Midi }
-  | { type: 'enable-wait-mode' }
-  | { type: 'disable-wait-mode' }
+  | { type: 'update-game-mode'; mode: GameMode }
   | { type: 'update-tempo'; tempo: number }
-  | { type: 'update-keyboard-size'; keyboardSize: KeyboardSize }
+  | { type: 'update-keyboard-type'; keyboardType: KeyboardType }
   | { type: 'update-transpose'; transpose: number }
-  | { type: 'play-note'; note: number }
-  | { type: 'rest-note'; note: number };
+  | { type: 'play-note'; note: Note }
+  | { type: 'rest-note'; note: Note };
 
 const appReducer = (state: AppState, action: AppAction) => {
   switch (action.type) {
@@ -58,25 +63,20 @@ const appReducer = (state: AppState, action: AppAction) => {
         ...state,
         song: action.song,
       };
-    case 'enable-wait-mode':
+    case 'update-game-mode':
       return {
         ...state,
-        waitModeEnabled: true,
-      };
-    case 'disable-wait-mode':
-      return {
-        ...state,
-        waitModeEnabled: false,
+        mode: action.mode,
       };
     case 'update-tempo':
       return {
         ...state,
         tempo: action.tempo,
       };
-    case 'update-keyboard-size':
+    case 'update-keyboard-type':
       return {
         ...state,
-        keyboardSize: action.keyboardSize,
+        keyboardType: action.keyboardType,
       };
     case 'update-transpose':
       return {

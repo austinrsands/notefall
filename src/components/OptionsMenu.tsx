@@ -10,11 +10,11 @@ import {
 } from '@material-ui/core';
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import StyleProps from '../interfaces/StyleProps';
-import WaitModeSwitch from './WaitModeSwitch';
 import Option from './Option';
 import TempoSlider from './TempoSlider';
-import KeyboardSizeSelect from './KeyboardSizeSelect';
+import KeyboardTypeSelect from './KeyboardTypeSelect';
 import TransposeCounter from './TransposeCounter';
+import GameModeSelect from './GameModeSelect';
 
 const useStyles = makeStyles({
   header: {
@@ -29,9 +29,10 @@ const useStyles = makeStyles({
     padding: '0.8rem 0.2rem',
   },
   option: {
-    padding: '0.5rem 2rem',
+    padding: '0.8rem 2rem',
   },
   input: {
+    flex: 1,
     maxWidth: '50%',
   },
 });
@@ -54,17 +55,17 @@ const OptionsMenu: React.FC<Props & StyleProps> = ({ onClose, ...rest }) => {
         </IconButton>
       </DialogTitle>
       <DialogContent className={classes.content}>
-        <Option title="Wait mode" className={classes.option}>
-          <WaitModeSwitch className={classes.input} />
+        <Option title="Mode" className={classes.option}>
+          <GameModeSelect className={classes.input} />
         </Option>
-        <Option title="Transpose" className={classes.option}>
-          <TransposeCounter className={classes.input} />
+        <Option title="Keyboard type" className={classes.option}>
+          <KeyboardTypeSelect className={classes.input} />
         </Option>
         <Option title="Tempo" className={classes.option}>
           <TempoSlider className={classes.input} />
         </Option>
-        <Option title="Keyboard size" className={classes.option}>
-          <KeyboardSizeSelect className={classes.input} />
+        <Option title="Transpose" className={classes.option}>
+          <TransposeCounter className={classes.input} />
         </Option>
       </DialogContent>
       <DialogActions />

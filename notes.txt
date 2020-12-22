@@ -1,0 +1,8 @@
+Todo:
+- note generation
+- note movement
+- scrolling
+- wait mode
+- replay
+- loop
+- debounce window resize event

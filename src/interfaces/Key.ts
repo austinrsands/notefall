@@ -1,12 +1,14 @@
+import KeyType from '../enums/KeyType';
+import Note from '../types/Note';
 import CornerRadii from './CornerRadii';
 import Position from './Position';
-import Scale from './Scale';
+import Size from './Size';
 
 interface Key {
-  note: number;
-  isNatural: boolean;
+  note: Note;
+  type: KeyType;
   position: Position;
-  scale: Scale;
+  size: Size;
   cornerRadii: CornerRadii;
 }
 

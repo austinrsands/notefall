@@ -10,11 +10,13 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
   },
-  button: {},
   value: {
     padding: '0 2rem',
     minWidth: '6rem',
     textAlign: 'center',
+  },
+  button: {
+    padding: '0.4rem',
   },
 });
 

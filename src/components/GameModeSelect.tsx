@@ -2,20 +2,20 @@ import React from 'react';
 import { TextField, MenuItem } from '@material-ui/core';
 import StyleProps from '../interfaces/StyleProps';
 import { useAppContext } from '../contexts/AppContext';
-import { KeyboardSize, KEYBOARDS_SIZES } from '../constants/keyboard';
+import GameMode from '../enums/GameMode';
 
 interface Props {
   disabled?: boolean;
 }
 
-const KeyboardSizeSelect: React.FC<Props & StyleProps> = (props) => {
+const GameModeSelect: React.FC<Props & StyleProps> = (props) => {
   const { appState, appDispatch } = useAppContext();
 
-  // Selects keyboard size
+  // Selects game mode
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     appDispatch({
-      type: 'update-keyboard-size',
-      keyboardSize: event.target.value as KeyboardSize,
+      type: 'update-game-mode',
+      mode: event.target.value as GameMode,
     });
   };
 
@@ -23,17 +23,17 @@ const KeyboardSizeSelect: React.FC<Props & StyleProps> = (props) => {
     <TextField
       fullWidth
       select
-      value={appState.keyboardSize}
+      value={appState.mode}
       onChange={handleChange}
       {...props}
     >
-      {KEYBOARDS_SIZES.map((keyboardSize) => (
-        <MenuItem key={keyboardSize} value={keyboardSize}>
-          {keyboardSize}
+      {Object.values(GameMode).map((mode) => (
+        <MenuItem key={mode} value={mode}>
+          {mode}
         </MenuItem>
       ))}
     </TextField>
   );
 };
 
-export default KeyboardSizeSelect;
+export default GameModeSelect;
