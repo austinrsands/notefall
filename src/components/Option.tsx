@@ -9,7 +9,6 @@ const useStyles = makeStyles({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  text: {},
 });
 
 interface Props {
@@ -25,9 +24,7 @@ const Option: React.FC<Props & StyleProps> = ({
   const classes = useStyles();
   return (
     <Box className={clsx(classes.root, className)} {...rest}>
-      <Typography className={classes.text} variant="subtitle1">
-        {title}
-      </Typography>
+      <Typography variant="subtitle1">{title}</Typography>
       {children}
     </Box>
   );

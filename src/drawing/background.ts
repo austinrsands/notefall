@@ -1,4 +1,4 @@
-import { BACKGROUND_COLOR } from '../constants/colors';
+import { BACKGROUND_COLOR } from '../constants/background';
 import Scale from '../interfaces/Scale';
 
 const drawBackground = (context: CanvasRenderingContext2D, scale: Scale) => {

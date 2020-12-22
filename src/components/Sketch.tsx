@@ -6,9 +6,12 @@ import { useAppContext } from '../contexts/AppContext';
 import drawBackground from '../drawing/background';
 import drawKeyboard from '../drawing/keyboard';
 import Key from '../interfaces/Key';
-import generateKeys from '../util/keyGenerator';
+import generateKeys from '../generators/keyGenerator';
 import Scale from '../interfaces/Scale';
 import Canvas from './Canvas';
+import NoteBlock from '../interfaces/NoteBlock';
+import generateNoteBlocks from '../generators/noteBlockGenerator';
+import drawNoteBlocks from '../drawing/noteBlocks';
 
 const useStyles = makeStyles({
   root: {
@@ -21,11 +24,21 @@ const useStyles = makeStyles({
 const Sketch: React.FC<StyleProps> = ({ className, ...rest }) => {
   const classes = useStyles();
   const { appState } = useAppContext();
-  const [scale, setScale] = useState<Scale>({ width: 0, height: 0 });
+  const [scale, setScale] = useState<Scale | undefined>();
 
+  // Array of keys
   const keys: Key[] = useMemo(
-    () => generateKeys(scale, appState.keyboardSize, appState.transpose),
+    () =>
+      scale
+        ? generateKeys(scale, appState.keyboardSize, appState.transpose)
+        : [],
     [appState.keyboardSize, appState.transpose, scale],
+  );
+
+  // Array of note blocks
+  const noteBlocks: NoteBlock[] = useMemo(
+    () => (appState.song ? generateNoteBlocks(appState.song, keys) : []),
+    [appState.song, keys],
   );
 
   // Regenerates keys when necessary
@@ -39,10 +52,10 @@ const Sketch: React.FC<StyleProps> = ({ className, ...rest }) => {
       const { width, height } = context.canvas.getBoundingClientRect();
       drawBackground(context, { width, height });
       // TODO: Draw Octave Lines
-      // TODO: Draw Notes
+      drawNoteBlocks(context, noteBlocks, appState.notes); // not showing
       drawKeyboard(context, keys, appState.notes);
     },
-    [appState.notes, keys],
+    [appState.notes, keys, noteBlocks],
   );
 
   return (

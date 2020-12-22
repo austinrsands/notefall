@@ -3,7 +3,7 @@
     "browser": true,
     "es2021": true
   },
-  "extends": ["plugin:react/recommended", "airbnb"],
+  "extends": ["plugin:react/recommended", "airbnb", "prettier"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -22,6 +22,7 @@
     "operator-linebreak": 0,
     "arrow-parens": ["error", "always"],
     "object-curly-newline": 0,
+    "import/prefer-default-export": "off",
     "one-var": 0,
     "one-var-declaration-per-line": 0,
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
@@ -56,6 +57,8 @@
     "import/order": 1,
     "import/extensions": [2, "never"],
     "@typescript-eslint/no-explicit-any": 0,
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error"],
     "lines-between-class-members": [
       "warn",
       "always",

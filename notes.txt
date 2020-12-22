@@ -5,3 +5,4 @@ Todo:
 - wait mode
 - replay
 - loop
+- debounce window resize event

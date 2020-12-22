@@ -20,7 +20,7 @@ const Canvas: React.FC<Props & StyleProps> = ({
   ...rest
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const scaleRef = useRef<Scale>({ width: 0, height: 0 });
+  const scaleRef = useRef<Scale | null>(null);
 
   // Updates canvas
   useEffect(() => {

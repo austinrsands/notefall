@@ -2,7 +2,7 @@ import React from 'react';
 import { TextField, MenuItem } from '@material-ui/core';
 import StyleProps from '../interfaces/StyleProps';
 import { useAppContext } from '../contexts/AppContext';
-import { KeyboardSize, KEYBOARDS_SIZES } from '../constants/keyboard';
+import KeyboardSize from '../enums/KeyboardSize';
 
 interface Props {
   disabled?: boolean;
@@ -27,7 +27,7 @@ const KeyboardSizeSelect: React.FC<Props & StyleProps> = (props) => {
       onChange={handleChange}
       {...props}
     >
-      {KEYBOARDS_SIZES.map((keyboardSize) => (
+      {Object.values(KeyboardSize).map((keyboardSize) => (
         <MenuItem key={keyboardSize} value={keyboardSize}>
           {keyboardSize}
         </MenuItem>
