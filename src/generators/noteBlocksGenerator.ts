@@ -2,9 +2,11 @@ import { Midi } from '@tonejs/midi';
 import NoteBlock from '../interfaces/NoteBlock';
 import Hand from '../enums/Hand';
 import KeyType from '../enums/KeyType';
-import { NOTE_BLOCK_CORNER_RADIUS_TO_WIDTH_RATIO } from '../constants/noteBlocks';
+import {
+  NOTE_BLOCK_CORNER_RADIUS_TO_WIDTH_RATIO,
+  UNIT_NOTE_BLOCK_LENGTH_TO_KEYBOARD_HEIGHT_RATIO,
+} from '../constants/noteBlocks';
 import Keyboard from '../interfaces/Keyboard';
-import { UNIT_NOTE_BLOCK_LENGTH_TO_KEYBOARD_HEIGHT_RATIO } from '../constants/keyboard';
 
 // Used to separate black key note blocks from white
 const compareNoteBlocks = (a: NoteBlock, b: NoteBlock) => {
@@ -49,17 +51,20 @@ const generateNoteBlocks = (song: Midi, keyboard: Keyboard): NoteBlock[] => {
         // Determine height
         const height = note.duration * unitLength;
 
-        // Determine vertical offset
-        const verticalOffset = note.time * unitLength + height;
+        // Determine offset from top of screen where the notes will start
+        const initialOffset = keyboard.position.y - unitLength;
+
+        // Determine offset relative to start
+        const relativeOffset = note.time * unitLength + height;
 
         // Push note block to array
         noteBlocks.push({
           note: note.midi,
           type: correspondingKey.type,
           hand,
-          offset: {
+          position: {
             x: correspondingKey.position.x,
-            y: verticalOffset,
+            y: -relativeOffset + initialOffset,
           },
           size: { width: correspondingKey.size.width, height },
           cornerRadii: {

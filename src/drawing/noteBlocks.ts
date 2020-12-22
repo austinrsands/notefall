@@ -7,11 +7,12 @@ const drawNoteBlock = (
   context: CanvasRenderingContext2D,
   noteBlock: NoteBlock,
   state: NoteBlockState,
+  progress: number,
 ) => {
   context.fillStyle = NOTE_BLOCK_PALETTE[noteBlock.hand][noteBlock.type][state];
   drawRoundedRect(
     context,
-    noteBlock.offset,
+    { x: noteBlock.position.x, y: noteBlock.position.y + progress },
     noteBlock.size,
     noteBlock.cornerRadii,
   );
@@ -22,6 +23,7 @@ const drawNoteBlocks = (
   context: CanvasRenderingContext2D,
   noteBlocks: NoteBlock[],
   notes: number[],
+  progress: number,
 ) => {
   noteBlocks.forEach((noteBlock) => {
     drawNoteBlock(
@@ -30,6 +32,7 @@ const drawNoteBlocks = (
       notes.includes(noteBlock.note)
         ? NoteBlockState.Played
         : NoteBlockState.Unplayed,
+      progress,
     );
   });
 };

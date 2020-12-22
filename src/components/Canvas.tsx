@@ -12,6 +12,7 @@ interface Props {
   onSetup?: (context: CanvasRenderingContext2D) => void;
   onDraw?: (context: CanvasRenderingContext2D) => void;
   onResize?: (size: Size) => void;
+  onWheel?: (event: React.WheelEvent<HTMLCanvasElement>) => void;
 }
 
 const Canvas: React.FC<Props & StyleProps> = ({
@@ -19,6 +20,7 @@ const Canvas: React.FC<Props & StyleProps> = ({
   onSetup,
   onDraw,
   onResize,
+  onWheel,
   ...rest
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -97,7 +99,7 @@ const Canvas: React.FC<Props & StyleProps> = ({
     };
   }, [targetFramerate, onSetup, onDraw, onResize, resize, shouldResize]);
 
-  return <canvas ref={canvasRef} {...rest} />;
+  return <canvas ref={canvasRef} onWheel={onWheel} {...rest} />;
 };
 
 export default Canvas;

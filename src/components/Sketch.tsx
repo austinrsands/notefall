@@ -12,6 +12,7 @@ import generateNoteBlocks from '../generators/noteBlocksGenerator';
 import drawNoteBlocks from '../drawing/noteBlocks';
 import Keyboard from '../interfaces/Keyboard';
 import generateKeyboard from '../generators/keyboardGenerator';
+import { NOTE_BLOCK_SCROLL_AMOUNT_TO_KEYBOARD_HEIGHT_RATIO } from '../constants/noteBlocks';
 
 const useStyles = makeStyles({
   root: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
 
 const Sketch: React.FC<StyleProps> = ({ className, ...rest }) => {
   const classes = useStyles();
-  const { appState } = useAppContext();
+  const { appState, appDispatch } = useAppContext();
   const [size, setSize] = useState<Size | undefined>();
 
   const keyboard: Keyboard | null = useMemo(() => {
@@ -48,10 +49,26 @@ const Sketch: React.FC<StyleProps> = ({ className, ...rest }) => {
     (context: CanvasRenderingContext2D) => {
       const { width, height } = context.canvas.getBoundingClientRect();
       drawBackground(context, { width, height });
-      if (noteBlocks) drawNoteBlocks(context, noteBlocks, appState.notes);
+      if (noteBlocks)
+        drawNoteBlocks(context, noteBlocks, appState.notes, appState.progress);
       if (keyboard) drawKeyboard(context, keyboard.keys, appState.notes);
     },
-    [appState.notes, keyboard, noteBlocks],
+    [appState.notes, appState.progress, keyboard, noteBlocks],
+  );
+
+  // Moves note blocks on scroll
+  const handleWheel = useCallback(
+    (event: React.WheelEvent<HTMLCanvasElement>) => {
+      if (keyboard && noteBlocks) {
+        // Determine amount to increment progess
+        const amount =
+          Math.sign(event.deltaY) *
+          keyboard.size.height *
+          NOTE_BLOCK_SCROLL_AMOUNT_TO_KEYBOARD_HEIGHT_RATIO;
+        appDispatch({ type: 'increment-progress', amount });
+      }
+    },
+    [appDispatch, keyboard, noteBlocks],
   );
 
   return (
@@ -59,6 +76,7 @@ const Sketch: React.FC<StyleProps> = ({ className, ...rest }) => {
       className={clsx(classes.root, className)}
       onDraw={handleDraw}
       onResize={handleResize}
+      onWheel={handleWheel}
       {...rest}
     />
   );

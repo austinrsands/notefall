@@ -9,7 +9,7 @@ interface NoteBlock {
   note: Note;
   type: KeyType;
   hand: Hand;
-  offset: Position;
+  position: Position;
   size: Size;
   cornerRadii: CornerRadii;
 }

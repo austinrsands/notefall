@@ -17,6 +17,7 @@ export interface AppState {
   transpose: number;
   notes: number[];
   song?: Midi;
+  progress: number;
 }
 
 export const DEFAULT_APP_STATE: AppState = {
@@ -26,6 +27,7 @@ export const DEFAULT_APP_STATE: AppState = {
   keyboardType: DEFAULT_KEYBOARD_SIZE,
   transpose: DEFAULT_TRANSPOSE,
   notes: [],
+  progress: 0,
 };
 
 export type AppAction =
@@ -38,7 +40,8 @@ export type AppAction =
   | { type: 'update-keyboard-type'; keyboardType: KeyboardType }
   | { type: 'update-transpose'; transpose: number }
   | { type: 'play-note'; note: Note }
-  | { type: 'rest-note'; note: Note };
+  | { type: 'rest-note'; note: Note }
+  | { type: 'increment-progress'; amount: number };
 
 const appReducer = (state: AppState, action: AppAction) => {
   switch (action.type) {
@@ -56,12 +59,14 @@ const appReducer = (state: AppState, action: AppAction) => {
     case 'restart': {
       return {
         ...state,
+        progress: 0,
       };
     }
     case 'upload':
       return {
         ...state,
         song: action.song,
+        progress: 0,
       };
     case 'update-game-mode':
       return {
@@ -94,6 +99,11 @@ const appReducer = (state: AppState, action: AppAction) => {
       return {
         ...state,
         notes: state.notes.filter((note) => note !== action.note),
+      };
+    case 'increment-progress':
+      return {
+        ...state,
+        progress: state.progress + action.amount,
       };
     default:
       return state;
