@@ -1,8 +1,6 @@
-Todo:
-- note generation
+Stuff to implement:
 - note movement
-- scrolling
-- wait mode
+- manual scrolling
+- wait for key mode
 - replay
-- loop
-- debounce window resize event
+- practice loop
