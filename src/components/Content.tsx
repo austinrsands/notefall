@@ -8,6 +8,7 @@ import StyleProps from '../interfaces/StyleProps';
 const useStyles = makeStyles({
   sketch: {
     position: 'fixed',
+    minWidth: '50rem',
   },
 });
 
