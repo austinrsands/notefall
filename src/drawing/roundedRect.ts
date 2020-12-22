@@ -10,19 +10,11 @@ const drawRoundedRect = (
 ) => {
   let { topLeft, topRight, bottomRight, bottomLeft } = cornerRadii;
 
-<<<<<<< HEAD
-  // Clamp radii
-  topLeft = Math.min(topLeft, scale.width / 2, scale.height / 2);
-  topRight = Math.min(topRight, scale.width / 2, scale.height / 2);
-  bottomRight = Math.min(bottomRight, scale.width / 2, scale.height / 2);
-  bottomLeft = Math.min(bottomLeft, scale.width / 2, scale.height / 2);
-=======
   // Clamp radius
   topLeft = Math.min(topLeft, size.width / 2, size.height / 2);
   topRight = Math.min(topRight, size.width / 2, size.height / 2);
   bottomRight = Math.min(bottomRight, size.width / 2, size.height / 2);
   bottomLeft = Math.min(bottomLeft, size.width / 2, size.height / 2);
->>>>>>> develop
 
   // Draw shape
   context.beginPath();
