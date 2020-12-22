@@ -1,13 +1,17 @@
 import { Midi } from '@tonejs/midi';
-import { DEFAULT_KEYBOARD_SIZE } from '../constants/keyboard';
-import { DEFAULT_TEMPO } from '../constants/tempo';
-import { DEFAULT_TRANSPOSE } from '../constants/transpose';
+import {
+  DEFAULT_TEMPO,
+  DEFAULT_KEYBOARD_SIZE,
+  DEFAULT_TRANSPOSE,
+  DEFAULT_GAME_MODE,
+} from '../constants/options';
+import GameMode from '../enums/GameMode';
 import KeyboardSize from '../enums/KeyboardSize';
 import Note from '../types/Note';
 
 export interface AppState {
   isPaused: boolean;
-  waitModeEnabled: boolean;
+  mode: GameMode;
   tempo: number;
   keyboardSize: KeyboardSize;
   transpose: number;
@@ -17,7 +21,7 @@ export interface AppState {
 
 export const DEFAULT_APP_STATE: AppState = {
   isPaused: true,
-  waitModeEnabled: true,
+  mode: DEFAULT_GAME_MODE,
   tempo: DEFAULT_TEMPO,
   keyboardSize: DEFAULT_KEYBOARD_SIZE,
   transpose: DEFAULT_TRANSPOSE,
@@ -29,8 +33,7 @@ export type AppAction =
   | { type: 'pause' }
   | { type: 'restart' }
   | { type: 'upload'; song: Midi }
-  | { type: 'enable-wait-mode' }
-  | { type: 'disable-wait-mode' }
+  | { type: 'update-game-mode'; mode: GameMode }
   | { type: 'update-tempo'; tempo: number }
   | { type: 'update-keyboard-size'; keyboardSize: KeyboardSize }
   | { type: 'update-transpose'; transpose: number }
@@ -60,15 +63,10 @@ const appReducer = (state: AppState, action: AppAction) => {
         ...state,
         song: action.song,
       };
-    case 'enable-wait-mode':
+    case 'update-game-mode':
       return {
         ...state,
-        waitModeEnabled: true,
-      };
-    case 'disable-wait-mode':
-      return {
-        ...state,
-        waitModeEnabled: false,
+        mode: action.mode,
       };
     case 'update-tempo':
       return {

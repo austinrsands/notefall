@@ -15,6 +15,9 @@ const useStyles = makeStyles({
     minWidth: '6rem',
     textAlign: 'center',
   },
+  button: {
+    padding: '0.4rem',
+  },
 });
 
 interface Props {
@@ -47,6 +50,7 @@ const Counter: React.FC<Props & StyleProps> = ({
   return (
     <Box className={clsx(classes.root, className)} {...rest}>
       <IconButton
+        className={classes.button}
         onClick={handleDecrement}
         disabled={minValue !== undefined && value === minValue}
         color="primary"
@@ -55,6 +59,7 @@ const Counter: React.FC<Props & StyleProps> = ({
       </IconButton>
       <Typography className={classes.value}>{value}</Typography>
       <IconButton
+        className={classes.button}
         size="medium"
         onClick={handleIncrement}
         disabled={maxValue !== undefined && value === maxValue}

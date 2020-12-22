@@ -1,3 +1,4 @@
+import { grey } from '@material-ui/core/colors';
 import KeyboardSize from '../enums/KeyboardSize';
 import NoteRange from '../interfaces/NoteRange';
 import KeyPalette from '../types/KeyPalette';
@@ -5,17 +6,14 @@ import KeyPalette from '../types/KeyPalette';
 // Colors
 export const KEY_PALETTE: KeyPalette = {
   white: {
-    unpressed: '#f5f6fa',
-    pressed: '#9E9E9E',
+    unpressed: grey[100],
+    pressed: grey[400],
   },
   black: {
     unpressed: '#000000',
     pressed: '#292929',
   },
 };
-
-// Size
-export const DEFAULT_KEYBOARD_SIZE = KeyboardSize.SixtyOneKey;
 
 // Note Ranges
 export const KEYBOARD_NOTE_RANGES: Record<KeyboardSize, NoteRange> = {
@@ -31,8 +29,8 @@ export const BLACK_KEY_WIDTH_TO_HEIGHT_RATIO = 1 / 5;
 export const BLACK_KEY_TO_WHITE_KEY_WIDTH_RATIO = 1 / 2;
 export const KEY_BORDER_RADIUS_TO_WIDTH_RATIO = 1 / 4;
 export const WHITE_KEY_SPACE_TO_WIDTH_RATIO = 1 / 25;
-export const TOP_CORNER_RADIUS_TO_WHITE_KEY_WIDTH_RATIO = 1 / 16;
-export const BOTTOM_CORNER_RADIUS_TO_WHITE_KEY_WIDTH_RATIO = 1 / 8;
+export const KEY_TOP_CORNER_RADIUS_TO_WHITE_KEY_WIDTH_RATIO = 1 / 16;
+export const KEY_BOTTOM_CORNER_RADIUS_TO_WHITE_KEY_WIDTH_RATIO = 1 / 8;
 export const BLACK_KEY_VERTICAL_OFFSET_TO_HEIGHT_RATIO = 1 / 200;
 
 // Notes

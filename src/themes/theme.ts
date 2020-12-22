@@ -1,17 +1,18 @@
 import { createMuiTheme } from '@material-ui/core';
+import { grey, lightBlue } from '@material-ui/core/colors';
 
 export const DARK_THEME = createMuiTheme({
   palette: {
     type: 'dark',
     primary: {
-      main: '#5294e2',
-      contrastText: '#EEEEEE',
+      main: lightBlue[600],
+      contrastText: grey[200],
     },
     background: {
-      default: '#212121',
+      default: grey[900],
     },
     text: {
-      primary: '#EEEEEE',
+      primary: grey[200],
     },
   },
   typography: {

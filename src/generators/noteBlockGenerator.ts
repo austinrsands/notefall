@@ -3,6 +3,7 @@ import Key from '../interfaces/Key';
 import NoteBlock from '../interfaces/NoteBlock';
 import Hand from '../enums/Hand';
 import KeyType from '../enums/KeyType';
+import { NOTE_BLOCK_CORNER_RADIUS_TO_WIDTH_RATIO } from '../constants/noteBlocks';
 
 // Used to separate black key note blocks from white
 const compareNoteBlocks = (a: NoteBlock, b: NoteBlock) => {
@@ -33,20 +34,26 @@ const generateNoteBlocks = (song: Midi, keys: Key[]) => {
 
       // Only create note block if corresponding key exists
       if (correspondingKey) {
+        // Determine corner radius
+        const cornerRadius =
+          correspondingKey.scale.width *
+          NOTE_BLOCK_CORNER_RADIUS_TO_WIDTH_RATIO;
+
+        // Push note block to array
         noteBlocks.push({
           note: note.midi,
           type: correspondingKey.type,
           hand,
           relativePosition: {
             x: correspondingKey.position.x,
-            y: correspondingKey.position.y - 300,
+            y: correspondingKey.position.y - 300 - Math.random() * 500,
           },
-          scale: { width: correspondingKey.scale.width, height: 300 },
+          scale: { width: correspondingKey.scale.width, height: 100 },
           cornerRadii: {
-            topLeft: correspondingKey.cornerRadii.topLeft,
-            topRight: correspondingKey.cornerRadii.topRight,
-            bottomRight: correspondingKey.cornerRadii.topRight,
-            bottomLeft: correspondingKey.cornerRadii.topLeft,
+            topLeft: cornerRadius,
+            topRight: cornerRadius,
+            bottomRight: cornerRadius,
+            bottomLeft: cornerRadius,
           },
         });
       }
