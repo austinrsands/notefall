@@ -1,6 +1,5 @@
 Stuff to implement:
-- note movement
-- manual scrolling
+- note block movement with auto replay
+- register correct note block when played
 - wait for key mode
-- replay
 - practice loop
