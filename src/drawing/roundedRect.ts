@@ -1,41 +1,41 @@
 import CornerRadii from '../interfaces/CornerRadii';
 import Position from '../interfaces/Position';
-import Scale from '../interfaces/Scale';
+import Size from '../interfaces/Size';
 
 const drawRoundedRect = (
   context: CanvasRenderingContext2D,
   position: Position,
-  scale: Scale,
+  size: Size,
   cornerRadii: CornerRadii,
 ) => {
   let { topLeft, topRight, bottomRight, bottomLeft } = cornerRadii;
 
   // Clamp radius
-  topLeft = Math.min(topLeft, scale.width / 2, scale.height / 2);
-  topRight = Math.min(topRight, scale.width / 2, scale.height / 2);
-  bottomRight = Math.min(bottomRight, scale.width / 2, scale.height / 2);
-  bottomLeft = Math.min(bottomLeft, scale.width / 2, scale.height / 2);
+  topLeft = Math.min(topLeft, size.width / 2, size.height / 2);
+  topRight = Math.min(topRight, size.width / 2, size.height / 2);
+  bottomRight = Math.min(bottomRight, size.width / 2, size.height / 2);
+  bottomLeft = Math.min(bottomLeft, size.width / 2, size.height / 2);
 
   // Draw shape
   context.beginPath();
   context.moveTo(position.x + topLeft, position.y);
   context.arcTo(
-    position.x + scale.width,
+    position.x + size.width,
     position.y,
-    position.x + scale.width,
-    position.y + scale.height,
+    position.x + size.width,
+    position.y + size.height,
     topRight,
   );
   context.arcTo(
-    position.x + scale.width,
-    position.y + scale.height,
+    position.x + size.width,
+    position.y + size.height,
     position.x,
-    position.y + scale.height,
+    position.y + size.height,
     bottomRight,
   );
   context.arcTo(
     position.x,
-    position.y + scale.height,
+    position.y + size.height,
     position.x,
     position.y,
     bottomLeft,
@@ -43,7 +43,7 @@ const drawRoundedRect = (
   context.arcTo(
     position.x,
     position.y,
-    position.x + scale.width,
+    position.x + size.width,
     position.y,
     topLeft,
   );

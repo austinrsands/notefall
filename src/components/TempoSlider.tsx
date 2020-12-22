@@ -15,11 +15,8 @@ const TempoSlider: React.FC<StyleProps> = ({ className, ...rest }) => {
   const classes = useStyles();
   const { appState, appDispatch } = useAppContext();
 
-  // Updates the tempo scale
-  const handleTempoScaleChange = (
-    _: ChangeEvent<{}>,
-    value: number | number[],
-  ) => {
+  // Updates the tempo
+  const handleTempoChange = (_: ChangeEvent<{}>, value: number | number[]) => {
     appDispatch({ type: 'update-tempo', tempo: value as number });
   };
 
@@ -31,7 +28,7 @@ const TempoSlider: React.FC<StyleProps> = ({ className, ...rest }) => {
       value={appState.tempo}
       min={MIN_TEMPO}
       max={MAX_TEMPO}
-      onChange={handleTempoScaleChange}
+      onChange={handleTempoChange}
       {...rest}
     />
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import Scale from '../interfaces/Scale';
+import Size from '../interfaces/Size';
 import StyleProps from '../interfaces/StyleProps';
 
 const DEVICE_PIXEL_RATIO = window.devicePixelRatio || 1;
@@ -9,7 +9,7 @@ interface Props {
   targetFramerate?: number;
   onSetup?: (context: CanvasRenderingContext2D) => void;
   onDraw?: (context: CanvasRenderingContext2D) => void;
-  onResize?: (scale: Scale) => void;
+  onResize?: (size: Size) => void;
 }
 
 const Canvas: React.FC<Props & StyleProps> = ({
@@ -20,7 +20,7 @@ const Canvas: React.FC<Props & StyleProps> = ({
   ...rest
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const scaleRef = useRef<Scale | null>(null);
+  const sizeRef = useRef<Size | null>(null);
 
   // Updates canvas
   useEffect(() => {
@@ -37,8 +37,8 @@ const Canvas: React.FC<Props & StyleProps> = ({
       const resizeCanvas = () => {
         const { width, height } = canvas.getBoundingClientRect();
         if (
-          scaleRef.current?.width !== width ||
-          scaleRef.current?.height !== height
+          sizeRef.current?.width !== width ||
+          sizeRef.current?.height !== height
         ) {
           // Resize canvas
           canvas.width = width * DEVICE_PIXEL_RATIO;
@@ -47,11 +47,11 @@ const Canvas: React.FC<Props & StyleProps> = ({
           // Scale context
           context.scale(DEVICE_PIXEL_RATIO, DEVICE_PIXEL_RATIO);
 
-          // Update scale ref
-          scaleRef.current = { width, height };
+          // Update size ref
+          sizeRef.current = { width, height };
 
           // Call resize prop
-          if (onResize) onResize(scaleRef.current);
+          if (onResize) onResize(sizeRef.current);
         }
       };
 

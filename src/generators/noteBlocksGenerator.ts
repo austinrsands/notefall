@@ -1,9 +1,10 @@
 import { Midi } from '@tonejs/midi';
-import Key from '../interfaces/Key';
 import NoteBlock from '../interfaces/NoteBlock';
 import Hand from '../enums/Hand';
 import KeyType from '../enums/KeyType';
 import { NOTE_BLOCK_CORNER_RADIUS_TO_WIDTH_RATIO } from '../constants/noteBlocks';
+import Keyboard from '../interfaces/Keyboard';
+import { UNIT_NOTE_BLOCK_LENGTH_TO_KEYBOARD_HEIGHT_RATIO } from '../constants/keyboard';
 
 // Used to separate black key note blocks from white
 const compareNoteBlocks = (a: NoteBlock, b: NoteBlock) => {
@@ -12,8 +13,13 @@ const compareNoteBlocks = (a: NoteBlock, b: NoteBlock) => {
   return 0;
 };
 
-const generateNoteBlocks = (song: Midi, keys: Key[]) => {
+const generateNoteBlocks = (song: Midi, keyboard: Keyboard): NoteBlock[] => {
+  // Initialize array
   const noteBlocks: NoteBlock[] = [];
+
+  // Determine how many pixels correspond to a second of note duration
+  const unitLength =
+    UNIT_NOTE_BLOCK_LENGTH_TO_KEYBOARD_HEIGHT_RATIO * keyboard.size.height;
 
   // Extract piano tracks
   const tracks = song.tracks.filter(
@@ -30,25 +36,32 @@ const generateNoteBlocks = (song: Midi, keys: Key[]) => {
     // Loop through notes
     track.notes.forEach((note) => {
       // Find corresponding key, if it exists
-      const correspondingKey = keys.find((key) => key.note === note.midi);
+      const correspondingKey = keyboard.keys.find(
+        (key) => key.note === note.midi,
+      );
 
       // Only create note block if corresponding key exists
       if (correspondingKey) {
         // Determine corner radius
         const cornerRadius =
-          correspondingKey.scale.width *
-          NOTE_BLOCK_CORNER_RADIUS_TO_WIDTH_RATIO;
+          correspondingKey.size.width * NOTE_BLOCK_CORNER_RADIUS_TO_WIDTH_RATIO;
+
+        // Determine height
+        const height = note.duration * unitLength;
+
+        // Determine vertical offset
+        const verticalOffset = note.time * unitLength + height;
 
         // Push note block to array
         noteBlocks.push({
           note: note.midi,
           type: correspondingKey.type,
           hand,
-          relativePosition: {
+          offset: {
             x: correspondingKey.position.x,
-            y: correspondingKey.position.y - 300 - Math.random() * 500,
+            y: verticalOffset,
           },
-          scale: { width: correspondingKey.scale.width, height: 100 },
+          size: { width: correspondingKey.size.width, height },
           cornerRadii: {
             topLeft: cornerRadius,
             topRight: cornerRadius,

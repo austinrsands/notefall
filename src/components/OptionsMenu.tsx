@@ -12,7 +12,7 @@ import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import StyleProps from '../interfaces/StyleProps';
 import Option from './Option';
 import TempoSlider from './TempoSlider';
-import KeyboardSizeSelect from './KeyboardSizeSelect';
+import KeyboardTypeSelect from './KeyboardTypeSelect';
 import TransposeCounter from './TransposeCounter';
 import GameModeSelect from './GameModeSelect';
 
@@ -58,8 +58,8 @@ const OptionsMenu: React.FC<Props & StyleProps> = ({ onClose, ...rest }) => {
         <Option title="Mode" className={classes.option}>
           <GameModeSelect className={classes.input} />
         </Option>
-        <Option title="Keyboard size" className={classes.option}>
-          <KeyboardSizeSelect className={classes.input} />
+        <Option title="Keyboard type" className={classes.option}>
+          <KeyboardTypeSelect className={classes.input} />
         </Option>
         <Option title="Tempo" className={classes.option}>
           <TempoSlider className={classes.input} />

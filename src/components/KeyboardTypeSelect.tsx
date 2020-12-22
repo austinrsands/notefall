@@ -2,20 +2,20 @@ import React from 'react';
 import { TextField, MenuItem } from '@material-ui/core';
 import StyleProps from '../interfaces/StyleProps';
 import { useAppContext } from '../contexts/AppContext';
-import KeyboardSize from '../enums/KeyboardSize';
+import KeyboardType from '../enums/KeyboardType';
 
 interface Props {
   disabled?: boolean;
 }
 
-const KeyboardSizeSelect: React.FC<Props & StyleProps> = (props) => {
+const KeyboardTypeSelect: React.FC<Props & StyleProps> = (props) => {
   const { appState, appDispatch } = useAppContext();
 
   // Selects keyboard size
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     appDispatch({
-      type: 'update-keyboard-size',
-      keyboardSize: event.target.value as KeyboardSize,
+      type: 'update-keyboard-type',
+      keyboardType: event.target.value as KeyboardType,
     });
   };
 
@@ -23,11 +23,11 @@ const KeyboardSizeSelect: React.FC<Props & StyleProps> = (props) => {
     <TextField
       fullWidth
       select
-      value={appState.keyboardSize}
+      value={appState.keyboardType}
       onChange={handleChange}
       {...props}
     >
-      {Object.values(KeyboardSize).map((keyboardSize) => (
+      {Object.values(KeyboardType).map((keyboardSize) => (
         <MenuItem key={keyboardSize} value={keyboardSize}>
           {keyboardSize}
         </MenuItem>
@@ -36,4 +36,4 @@ const KeyboardSizeSelect: React.FC<Props & StyleProps> = (props) => {
   );
 };
 
-export default KeyboardSizeSelect;
+export default KeyboardTypeSelect;

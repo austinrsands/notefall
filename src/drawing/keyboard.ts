@@ -9,7 +9,7 @@ const drawKey = (
   state: KeyState,
 ) => {
   context.fillStyle = KEY_PALETTE[key.type][state];
-  drawRoundedRect(context, key.position, key.scale, key.cornerRadii);
+  drawRoundedRect(context, key.position, key.size, key.cornerRadii);
   context.fill();
 };
 

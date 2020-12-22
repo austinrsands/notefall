@@ -1,5 +1,5 @@
 import { grey } from '@material-ui/core/colors';
-import KeyboardSize from '../enums/KeyboardSize';
+import KeyboardType from '../enums/KeyboardType';
 import NoteRange from '../interfaces/NoteRange';
 import KeyPalette from '../types/KeyPalette';
 
@@ -16,7 +16,7 @@ export const KEY_PALETTE: KeyPalette = {
 };
 
 // Note Ranges
-export const KEYBOARD_NOTE_RANGES: Record<KeyboardSize, NoteRange> = {
+export const KEYBOARD_NOTE_RANGES: Record<KeyboardType, NoteRange> = {
   '49-key': { min: 36, max: 84 },
   '61-key': { min: 36, max: 96 },
   '76-key': { min: 28, max: 103 },
@@ -32,6 +32,7 @@ export const WHITE_KEY_SPACE_TO_WIDTH_RATIO = 1 / 25;
 export const KEY_TOP_CORNER_RADIUS_TO_WHITE_KEY_WIDTH_RATIO = 1 / 16;
 export const KEY_BOTTOM_CORNER_RADIUS_TO_WHITE_KEY_WIDTH_RATIO = 1 / 8;
 export const BLACK_KEY_VERTICAL_OFFSET_TO_HEIGHT_RATIO = 1 / 200;
+export const UNIT_NOTE_BLOCK_LENGTH_TO_KEYBOARD_HEIGHT_RATIO = 3 / 4;
 
 // Notes
 export const MIDDLE_C_NOTE = 60;

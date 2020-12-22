@@ -11,8 +11,8 @@ const drawNoteBlock = (
   context.fillStyle = NOTE_BLOCK_PALETTE[noteBlock.hand][noteBlock.type][state];
   drawRoundedRect(
     context,
-    noteBlock.relativePosition,
-    noteBlock.scale,
+    noteBlock.offset,
+    noteBlock.size,
     noteBlock.cornerRadii,
   );
   context.fill();
