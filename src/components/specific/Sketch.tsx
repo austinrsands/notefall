@@ -68,12 +68,13 @@ const Sketch: React.FC<CanvasProps> = ({ className, ...rest }) => {
       if (appState.gameState === GameState.Playing) updateProgress(deltaTime);
 
       // Draw note blocks
-      if (noteGroup)
+      if (noteGroup && keyboard)
         drawNoteBlocks(
           context,
           noteGroup.noteBlocks,
           appState.notes,
           appState.progress,
+          keyboard,
         );
 
       // Draw keyboard

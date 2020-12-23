@@ -2,6 +2,7 @@ import { KEY_PALETTE } from '../constants/keyboard';
 import Key from '../interfaces/Key';
 import KeyState from '../enums/KeyState';
 import drawRoundedRect from './roundedRect';
+import Note from '../types/Note';
 
 const drawKey = (
   context: CanvasRenderingContext2D,
@@ -16,7 +17,7 @@ const drawKey = (
 const drawKeyboard = (
   context: CanvasRenderingContext2D,
   keys: Key[],
-  notes: number[],
+  notes: Note[],
 ) => {
   keys.forEach((key) => {
     drawKey(

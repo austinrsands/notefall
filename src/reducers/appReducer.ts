@@ -17,7 +17,7 @@ export interface AppState {
   tempoScale: number;
   keyboardType: KeyboardType;
   transpose: number;
-  notes: number[];
+  notes: Note[];
   song?: Midi;
   progress: number;
 }
