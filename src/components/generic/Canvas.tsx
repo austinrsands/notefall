@@ -2,8 +2,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Size from '../../interfaces/Size';
 
 const DEVICE_PIXEL_RATIO = window.devicePixelRatio || 1;
-
-// Number of times to draw per frame
 const DEFAULT_TARGET_FRAMERATE = 60;
 
 interface Props {
