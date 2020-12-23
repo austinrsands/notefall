@@ -82,8 +82,6 @@ const Sketch: React.FC<StyleProps> = ({ className, ...rest }) => {
       onDraw={handleDraw}
       onResize={handleResize}
       onWheel={handleWheel}
-      onSetup={() => undefined} // Test
-      targetFramerate={1} // Test
       {...rest}
     />
   );

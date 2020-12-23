@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Size from '../interfaces/Size';
-import StyleProps from '../interfaces/StyleProps';
 
 const DEVICE_PIXEL_RATIO = window.devicePixelRatio || 1;
 
@@ -10,31 +9,33 @@ const DEFAULT_TARGET_FRAMERATE = 60;
 interface Props {
   targetFramerate?: number;
   onSetup?: (context: CanvasRenderingContext2D) => void;
-  onDraw?: (context: CanvasRenderingContext2D) => void;
+  onDraw?: (context: CanvasRenderingContext2D, deltaTime: number) => void;
   onResize?: (size: Size) => void;
   onWheel?: (event: React.WheelEvent<HTMLCanvasElement>) => void;
 }
 
-const Canvas: React.FC<Props & StyleProps> = ({
+const Canvas: React.FC<
+  Props &
+    React.DetailedHTMLProps<
+      React.CanvasHTMLAttributes<HTMLCanvasElement>,
+      HTMLCanvasElement
+    >
+> = ({
   targetFramerate = DEFAULT_TARGET_FRAMERATE,
   onSetup,
   onDraw,
   onResize,
-  onWheel,
   ...rest
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const previousFrameTimeRef = useRef<number>(null);
-  const [frameTime, setFrameTime] = useState<number>(Date.now());
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
+  const size = useRef<Size | null>(null);
+  const [frameTime, setFrameTime] = useState<number>(Date.now());
+  const previousFrameTime = useRef<number | null>(null);
 
   // Gets context
   useEffect(() => {
-    if (canvasRef.current) {
-      console.log('get context');
-      // Get context
-      setContext(canvasRef.current.getContext('2d'));
-    }
+    if (canvasRef.current) setContext(canvasRef.current.getContext('2d'));
   }, []);
 
   // Starts animation loop
@@ -45,7 +46,7 @@ const Canvas: React.FC<Props & StyleProps> = ({
     // Used for canceling animation frame request
     let requestID: number;
 
-    // Request animation frame targetFramerate times per second and update frame time
+    // Request animation frame with frequency based on target framerate
     const animate = () => {
       timeoutID = setTimeout(() => {
         requestID = requestAnimationFrame(animate);
@@ -56,118 +57,66 @@ const Canvas: React.FC<Props & StyleProps> = ({
     // Start animating
     if (context) animate();
 
-    // Cleanup
+    // Perform cleanup
     return () => {
       if (requestID) cancelAnimationFrame(requestID);
       if (timeoutID) clearTimeout(timeoutID);
     };
   }, [context, targetFramerate]);
 
-  useEffect(() => {
-    if (previousFrameTimeRef !== null) {
-      const previousFrameTime = previousFrameTimeRef.current;
-      console.log(frameTime - previousFrameTime);
-      previousFrameTimeRef.current = frameTime;
-    }
-  }, [frameTime]);
-
   // Setup
   useEffect(() => {
-    if (context && onSetup) {
-      console.log('setup');
-      onSetup(context);
-    }
+    if (context && onSetup) onSetup(context);
   }, [context, onSetup]);
 
-  useEffect(() => {
-    if (context) {
-      const { width, height } = context.canvas.getBoundingClientRect();
-      console.log(width, height);
-    }
+  // Determines whether canvas needs to resize
+  const canvasNeedsToResize = useCallback(() => {
+    if (context === null) return false;
+    if (size.current === null) return true;
+    const { width, height } = context.canvas.getBoundingClientRect();
+
+    // Determine if canvas size has changed
+    const sizeHasChanged =
+      size.current.width !== width || size.current.height !== height;
+
+    return sizeHasChanged;
   }, [context]);
 
-  // // Returns true if canvas should resize, false otherwise
-  // const shouldResize = useCallback(() => {
-  //   if (sizeRef.current === null) return true;
-  //   const { width, height } = canvas.getBoundingClientRect();
+  // Resizes the canvas
+  const resizeCanvas = useCallback(() => {
+    if (context) {
+      const { width, height } = context.canvas.getBoundingClientRect();
+      // Resize canvas
+      context.canvas.width = width * DEVICE_PIXEL_RATIO;
+      context.canvas.height = height * DEVICE_PIXEL_RATIO;
 
-  //   // Determine if canvas size has changed
-  //   const sizeHasChanged =
-  //     sizeRef.current.width !== width || sizeRef.current.height !== height;
+      // Scale context
+      context.scale(DEVICE_PIXEL_RATIO, DEVICE_PIXEL_RATIO);
 
-  //   return sizeHasChanged;
-  // }, []);
+      // Update size ref
+      size.current = { width, height };
 
-  // // Resizes the canvas associated with the given context
-  // const resize = useCallback(
-  //   (context: CanvasRenderingContext2D) => {
-  //     const { width, height } = context.canvas.getBoundingClientRect();
-  //     // Resize canvas
-  //     context.canvas.width = width * DEVICE_PIXEL_RATIO;
-  //     context.canvas.height = height * DEVICE_PIXEL_RATIO;
+      // Run callback
+      if (onResize) onResize(size.current);
+    }
+  }, [context, onResize]);
 
-  //     // Scale context
-  //     context.scale(DEVICE_PIXEL_RATIO, DEVICE_PIXEL_RATIO);
+  // Draw
+  useEffect(() => {
+    if (previousFrameTime.current && context) {
+      // Determine time between frames
+      const deltaTime = (frameTime - previousFrameTime.current) / 1000;
 
-  //     // Update size ref
-  //     sizeRef.current = { width, height };
+      // Resize canvas if necessary
+      if (canvasNeedsToResize()) resizeCanvas();
 
-  //     // Run callback
-  //     if (onResize) onResize(sizeRef.current);
-  //   },
-  //   [onResize],
-  // );
+      // Call draw prop
+      if (onDraw) onDraw(context, deltaTime);
+    }
+    previousFrameTime.current = frameTime;
+  }, [context, canvasNeedsToResize, resizeCanvas, onDraw, frameTime]);
 
-  // // Updates canvas
-  // useEffect(() => {
-  //   const canvas = canvasRef.current;
-  //   const context = canvas?.getContext('2d');
-
-  //   // Used for cancelling animation requests and timeout
-  //   let requestID: number;
-  //   let timeoutID: number;
-
-  //   // Check if canvas and context are defined
-  //   if (canvas && context) {
-  //     // Initial Resize
-  //     if (shouldResize(canvas)) resize(context);
-
-  //     // Call setup if defined
-  //     console.log('setup');
-  //     if (onSetup) onSetup(context);
-
-  //     // Animation loop
-  //     const animate = () => {
-  //       if (shouldResize(canvas)) resize(context);
-
-  //       // Reanimate based on target framerate
-  //       timeoutID = setTimeout(() => {
-  //         requestID = requestAnimationFrame(animate);
-  //       }, 1000 / targetFramerate);
-
-  //       // Calculate time since last frame in seconds
-  //       const now = Date.now();
-  //       const deltaTime = (now - lastFrameTimeRef.current) * 1000;
-
-  //       // Call draw if defined
-  //       if (onDraw) onDraw(context, deltaTime);
-
-  //       // Update with time for this frame
-  //       lastFrameTimeRef.current = Date.now();
-  //     };
-
-  //     // Initiate animation loop
-  //     animate();
-  //   }
-
-  //   return () => {
-  //     // Cancel animation request and timeout if necessary
-  //     if (requestID) cancelAnimationFrame(requestID);
-  //     if (timeoutID) clearTimeout(timeoutID);
-  //   };
-  // }, [targetFramerate, onSetup, onDraw, onResize, resize, shouldResize]);
-
-  return <canvas ref={canvasRef} onWheel={onWheel} {...rest} />;
+  return <canvas ref={canvasRef} {...rest} />;
 };
 
 export default Canvas;
