@@ -23,10 +23,8 @@ const UploadButton: React.FC<Props & StyleProps> = ({ disabled, ...rest }) => {
     // Create MIDI song
     const song = new Midi(buffer);
 
-    // Replace song name with file name (minus extension) if necessary
-    song.name = song.name
-      ? song.name
-      : file.name.split('.').slice(0, -1).join('.');
+    // Replace song name with file name (minus extension)
+    song.name = file.name.split('.').slice(0, -1).join('.');
 
     // Send song to context
     appDispatch({ type: 'upload', song });
