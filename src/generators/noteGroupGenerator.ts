@@ -78,7 +78,7 @@ const generateNoteBlocks = (
         const height = note.duration * unitLength;
 
         // Determine offset from top of screen where the notes will start
-        const initialOffset = keyboard.position.y - unitLength;
+        const initialOffset = keyboard.position.y - unitLength * 3;
 
         // Determine offset relative to start
         const relativeOffset = note.time * unitLength + height;
