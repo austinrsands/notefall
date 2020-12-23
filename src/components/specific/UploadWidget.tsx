@@ -1,7 +1,6 @@
 import React from 'react';
-import { Box, makeStyles } from '@material-ui/core';
+import { Box, BoxProps, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
-import StyleProps from '../interfaces/StyleProps';
 import UploadButton from './UploadButton';
 import UploadLabel from './UploadLabel';
 
@@ -15,7 +14,7 @@ const useStyles = makeStyles({
   },
 });
 
-const UploadWidget: React.FC<StyleProps> = ({ className, ...rest }) => {
+const UploadWidget: React.FC<BoxProps> = ({ className, ...rest }) => {
   const classes = useStyles();
 
   return (

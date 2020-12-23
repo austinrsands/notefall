@@ -6,7 +6,7 @@ import WebMidi, {
   WebMidiEventConnected,
   WebMidiEventDisconnected,
 } from 'webmidi';
-import { useAppContext } from '../contexts/AppContext';
+import { useAppContext } from '../../contexts/AppContext';
 import SimpleBackdrop from './SimpleBackdrop';
 
 const DeviceManager: React.FC = () => {

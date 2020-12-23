@@ -7,9 +7,9 @@ import {
   DialogActions,
   Typography,
   IconButton,
+  DialogProps,
 } from '@material-ui/core';
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
-import StyleProps from '../interfaces/StyleProps';
 import Option from './Option';
 import TempoSlider from './TempoSlider';
 import KeyboardTypeSelect from './KeyboardTypeSelect';
@@ -38,11 +38,20 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  open: boolean;
-  onClose?: () => void;
+  onClose?: (
+    event: {},
+    reason: 'backdropClick' | 'escapeKeyDown' | 'closeButtonClick',
+  ) => void;
 }
-const OptionsMenu: React.FC<Props & StyleProps> = ({ onClose, ...rest }) => {
+
+const OptionsMenu: React.FC<Props & DialogProps> = ({ onClose, ...rest }) => {
   const classes = useStyles();
+
+  const handleClick = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    if (onClose) onClose(event, 'closeButtonClick');
+  };
 
   return (
     <Dialog maxWidth="xs" fullWidth onClose={onClose} {...rest}>
@@ -50,7 +59,7 @@ const OptionsMenu: React.FC<Props & StyleProps> = ({ onClose, ...rest }) => {
         <Typography variant="h5" className={classes.title}>
           Options
         </Typography>
-        <IconButton size="medium" onClick={onClose}>
+        <IconButton size="medium" onClick={handleClick}>
           <CloseRoundedIcon />
         </IconButton>
       </DialogTitle>

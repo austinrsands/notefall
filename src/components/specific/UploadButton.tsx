@@ -1,13 +1,16 @@
 import React from 'react';
-import { Button, Tooltip } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { Midi } from '@tonejs/midi';
-import StyleProps from '../interfaces/StyleProps';
-import { useAppContext } from '../contexts/AppContext';
+import { useAppContext } from '../../contexts/AppContext';
+import StyleProps from '../../interfaces/StyleProps';
 
-const UploadButton: React.FC<StyleProps> = (props) => {
+interface Props {
+  disabled?: boolean;
+}
+
+const UploadButton: React.FC<Props & StyleProps> = ({ disabled, ...rest }) => {
   const { appDispatch } = useAppContext();
 
-  // Converts uploaded file to MIDI object and sends to context
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     // Capture file
     if (!event.target.files) return;
@@ -33,17 +36,21 @@ const UploadButton: React.FC<StyleProps> = (props) => {
   };
 
   return (
-    <Tooltip title="Select song" enterDelay={500} {...props}>
-      <Button color="primary" variant="contained" component="label">
-        Upload
-        <input
-          type="file"
-          accept="audio/midi, audio/x-midi"
-          style={{ display: 'none' }}
-          onChange={handleChange}
-        />
-      </Button>
-    </Tooltip>
+    <Button
+      color="primary"
+      variant="contained"
+      component="label"
+      disabled={disabled}
+      {...rest}
+    >
+      Upload
+      <input
+        type="file"
+        accept="audio/midi, audio/x-midi"
+        style={{ display: 'none' }}
+        onChange={handleChange}
+      />
+    </Button>
   );
 };
 

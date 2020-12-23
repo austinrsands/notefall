@@ -1,6 +1,11 @@
 import React from 'react';
-import { Backdrop, Box, makeStyles, Typography } from '@material-ui/core';
-import StyleProps from '../interfaces/StyleProps';
+import {
+  Backdrop,
+  BackdropProps,
+  Box,
+  makeStyles,
+  Typography,
+} from '@material-ui/core';
 
 const useStyles = makeStyles({
   content: {
@@ -18,12 +23,11 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  open: boolean;
   title?: string;
   subtitle?: string;
 }
 
-const SimpleBackdrop: React.FC<Props & StyleProps> = ({
+const SimpleBackdrop: React.FC<Props & BackdropProps> = ({
   title,
   subtitle,
   ...rest

@@ -1,13 +1,11 @@
 import React from 'react';
-import { Switch } from '@material-ui/core';
-import StyleProps from '../interfaces/StyleProps';
-import { useAppContext } from '../contexts/AppContext';
-import GameMode from '../enums/GameMode';
+import { Switch, SwitchProps } from '@material-ui/core';
+import { useAppContext } from '../../contexts/AppContext';
+import GameMode from '../../enums/GameMode';
 
-const GameModeSwitch: React.FC<StyleProps> = (props) => {
+const GameModeSwitch: React.FC<SwitchProps> = (props) => {
   const { appState, appDispatch } = useAppContext();
 
-  // Updates game mode
   const handleGameModeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked)
       appDispatch({ type: 'update-game-mode', mode: GameMode.WaitForKey });

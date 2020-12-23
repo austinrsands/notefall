@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import Size from '../interfaces/Size';
+import Size from '../../interfaces/Size';
 
 const DEVICE_PIXEL_RATIO = window.devicePixelRatio || 1;
 
@@ -14,13 +14,13 @@ interface Props {
   onWheel?: (event: React.WheelEvent<HTMLCanvasElement>) => void;
 }
 
-const Canvas: React.FC<
-  Props &
-    React.DetailedHTMLProps<
-      React.CanvasHTMLAttributes<HTMLCanvasElement>,
-      HTMLCanvasElement
-    >
-> = ({
+export type CanvasProps = Props &
+  React.DetailedHTMLProps<
+    React.CanvasHTMLAttributes<HTMLCanvasElement>,
+    HTMLCanvasElement
+  >;
+
+const Canvas: React.FC<CanvasProps> = ({
   targetFramerate = DEFAULT_TARGET_FRAMERATE,
   onSetup,
   onDraw,

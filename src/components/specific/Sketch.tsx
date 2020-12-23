@@ -1,18 +1,17 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
-import StyleProps from '../interfaces/StyleProps';
-import { useAppContext } from '../contexts/AppContext';
-import drawBackground from '../drawing/background';
-import drawKeyboard from '../drawing/keyboard';
-import Size from '../interfaces/Size';
-import Canvas from './Canvas';
-import NoteBlock from '../interfaces/NoteBlock';
-import generateNoteBlocks from '../generators/noteBlocksGenerator';
-import drawNoteBlocks from '../drawing/noteBlocks';
-import Keyboard from '../interfaces/Keyboard';
-import generateKeyboard from '../generators/keyboardGenerator';
-import { NOTE_BLOCK_SCROLL_AMOUNT_TO_KEYBOARD_HEIGHT_RATIO } from '../constants/noteBlocks';
+import { useAppContext } from '../../contexts/AppContext';
+import drawBackground from '../../drawing/background';
+import drawKeyboard from '../../drawing/keyboard';
+import Size from '../../interfaces/Size';
+import Canvas, { CanvasProps } from '../generic/Canvas';
+import NoteBlock from '../../interfaces/NoteBlock';
+import generateNoteBlocks from '../../generators/noteBlocksGenerator';
+import drawNoteBlocks from '../../drawing/noteBlocks';
+import Keyboard from '../../interfaces/Keyboard';
+import generateKeyboard from '../../generators/keyboardGenerator';
+import { NOTE_BLOCK_SCROLL_AMOUNT_TO_KEYBOARD_HEIGHT_RATIO } from '../../constants/noteBlocks';
 
 const useStyles = makeStyles({
   root: {
@@ -22,7 +21,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Sketch: React.FC<StyleProps> = ({ className, ...rest }) => {
+const Sketch: React.FC<CanvasProps> = ({ className, ...rest }) => {
   const classes = useStyles();
   const { appState, appDispatch } = useAppContext();
   const [size, setSize] = useState<Size | undefined>();

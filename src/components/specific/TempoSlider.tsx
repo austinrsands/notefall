@@ -1,9 +1,8 @@
 import React, { ChangeEvent } from 'react';
-import { makeStyles, Slider } from '@material-ui/core';
+import { makeStyles, Slider, SliderProps } from '@material-ui/core';
 import clsx from 'clsx';
-import { useAppContext } from '../contexts/AppContext';
-import StyleProps from '../interfaces/StyleProps';
-import { MIN_TEMPO, MAX_TEMPO } from '../constants/options';
+import { useAppContext } from '../../contexts/AppContext';
+import { MIN_TEMPO, MAX_TEMPO } from '../../constants/options';
 
 const useStyles = makeStyles({
   root: {
@@ -11,11 +10,10 @@ const useStyles = makeStyles({
   },
 });
 
-const TempoSlider: React.FC<StyleProps> = ({ className, ...rest }) => {
+const TempoSlider: React.FC<SliderProps> = ({ className, ...rest }) => {
   const classes = useStyles();
   const { appState, appDispatch } = useAppContext();
 
-  // Updates the tempo
   const handleTempoChange = (_: ChangeEvent<{}>, value: number | number[]) => {
     appDispatch({ type: 'update-tempo', tempo: value as number });
   };

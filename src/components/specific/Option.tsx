@@ -1,7 +1,6 @@
 import React from 'react';
-import { Box, makeStyles, Typography } from '@material-ui/core';
+import { Box, BoxProps, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
-import StyleProps from '../interfaces/StyleProps';
 
 const useStyles = makeStyles({
   root: {
@@ -15,7 +14,7 @@ interface Props {
   title: string;
 }
 
-const Option: React.FC<Props & StyleProps> = ({
+const Option: React.FC<Props & BoxProps> = ({
   className,
   title,
   children,

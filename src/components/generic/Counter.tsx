@@ -1,9 +1,14 @@
-import { Box, IconButton, makeStyles, Typography } from '@material-ui/core';
+import {
+  Box,
+  BoxProps,
+  IconButton,
+  makeStyles,
+  Typography,
+} from '@material-ui/core';
 import clsx from 'clsx';
 import React from 'react';
 import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
-import StyleProps from '../interfaces/StyleProps';
 
 const useStyles = makeStyles({
   root: {
@@ -28,7 +33,9 @@ interface Props {
   onChange?: (value: number) => void;
 }
 
-const Counter: React.FC<Props & StyleProps> = ({
+export type CounterProps = Props & Omit<BoxProps, 'onChange'>;
+
+const Counter: React.FC<CounterProps> = ({
   className,
   value = 0,
   minValue,

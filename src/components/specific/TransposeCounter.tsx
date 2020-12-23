@@ -1,10 +1,9 @@
-import { Box, makeStyles } from '@material-ui/core';
+import { Box, BoxProps, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
 import React from 'react';
-import { MIN_TRANSPOSE, MAX_TRANSPOSE } from '../constants/options';
-import { useAppContext } from '../contexts/AppContext';
-import StyleProps from '../interfaces/StyleProps';
-import Counter from './Counter';
+import { MIN_TRANSPOSE, MAX_TRANSPOSE } from '../../constants/options';
+import { useAppContext } from '../../contexts/AppContext';
+import Counter from '../generic/Counter';
 
 const useStyles = makeStyles({
   root: {
@@ -14,7 +13,7 @@ const useStyles = makeStyles({
   },
 });
 
-const TransposeCounter: React.FC<StyleProps> = ({ className, ...rest }) => {
+const TransposeCounter: React.FC<BoxProps> = ({ className, ...rest }) => {
   const classes = useStyles();
   const { appState, appDispatch } = useAppContext();
 

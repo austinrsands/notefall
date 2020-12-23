@@ -1,9 +1,11 @@
 import { grey } from '@material-ui/core/colors';
 import KeyboardType from '../enums/KeyboardType';
+import KeyType from '../enums/KeyType';
+import KeyState from '../enums/KeyState';
 import NoteRange from '../interfaces/NoteRange';
-import KeyPalette from '../types/KeyPalette';
 
 // Colors
+type KeyPalette = Record<KeyType, Record<KeyState, string>>;
 export const KEY_PALETTE: KeyPalette = {
   white: {
     unpressed: grey[100],

@@ -1,7 +1,6 @@
 import React from 'react';
-import { Box, makeStyles } from '@material-ui/core';
+import { Box, BoxProps, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
-import StyleProps from '../interfaces/StyleProps';
 import UploadWidget from './UploadWidget';
 import OptionsWidget from './OptionsWidget';
 import PlayPauseButton from './PlayPauseButton';
@@ -37,7 +36,7 @@ const useStyles = makeStyles({
   },
 });
 
-const TopBar: React.FC<StyleProps> = ({ className, ...rest }) => {
+const TopBar: React.FC<BoxProps> = ({ className, ...rest }) => {
   const classes = useStyles();
 
   return (

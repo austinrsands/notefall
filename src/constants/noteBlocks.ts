@@ -1,7 +1,13 @@
 import { blueGrey, pink, purple } from '@material-ui/core/colors';
-import NoteBlockPalette from '../types/NoteBlockPalette';
+import Hand from '../enums/Hand';
+import KeyType from '../enums/KeyType';
+import NoteBlockState from '../enums/NoteBlockState';
 
 // Colors
+type NoteBlockPalette = Record<
+  Hand,
+  Record<KeyType, Record<NoteBlockState, string>>
+>;
 export const NOTE_BLOCK_PALETTE: NoteBlockPalette = {
   left: {
     white: {
