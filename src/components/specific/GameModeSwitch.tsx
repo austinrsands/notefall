@@ -14,7 +14,7 @@ const GameModeSwitch: React.FC<SwitchProps> = (props) => {
 
   return (
     <Switch
-      checked={appState.mode === GameMode.WaitForKey}
+      checked={appState.gameMode === GameMode.WaitForKey}
       color="primary"
       size="medium"
       onChange={handleGameModeChange}

@@ -6,12 +6,13 @@ import drawBackground from '../../drawing/background';
 import drawKeyboard from '../../drawing/keyboard';
 import Size from '../../interfaces/Size';
 import Canvas, { CanvasProps } from '../generic/Canvas';
-import NoteBlock from '../../interfaces/NoteBlock';
-import generateNoteBlocks from '../../generators/noteBlocksGenerator';
-import drawNoteBlocks from '../../drawing/noteBlocks';
 import Keyboard from '../../interfaces/Keyboard';
 import generateKeyboard from '../../generators/keyboardGenerator';
 import { NOTE_BLOCK_SCROLL_AMOUNT_TO_KEYBOARD_HEIGHT_RATIO } from '../../constants/noteBlocks';
+import GameState from '../../enums/GameState';
+import NoteGroup from '../../interfaces/NoteGroup';
+import generateNoteGroup from '../../generators/noteGroupGenerator';
+import drawNoteBlocks from '../../drawing/noteBlocks';
 
 const useStyles = makeStyles({
   root: {
@@ -32,9 +33,9 @@ const Sketch: React.FC<CanvasProps> = ({ className, ...rest }) => {
     return null;
   }, [appState.keyboardType, appState.transpose, size]);
 
-  const noteBlocks: NoteBlock[] | null = useMemo(() => {
+  const noteGroup: NoteGroup | null = useMemo(() => {
     if (appState.song && keyboard)
-      return generateNoteBlocks(appState.song, keyboard);
+      return generateNoteGroup(appState.song, keyboard);
     return null;
   }, [appState.song, keyboard]);
 
@@ -43,36 +44,66 @@ const Sketch: React.FC<CanvasProps> = ({ className, ...rest }) => {
     setSize(canvasSize);
   }, []);
 
+  // Moves note blocks
+  const updateProgress = useCallback(
+    (deltaTime: number) => {
+      if (noteGroup) {
+        // Determine how much to move noteblocks
+        const amount =
+          noteGroup.unitNoteBlockLength * appState.tempoScale * deltaTime;
+        const { range } = noteGroup;
+        appDispatch({ type: 'move', amount, range });
+      }
+    },
+    [appDispatch, appState.tempoScale, noteGroup],
+  );
+
   // Gets called every frame
   const handleDraw = useCallback(
-    (context: CanvasRenderingContext2D) => {
+    (context: CanvasRenderingContext2D, deltaTime: number) => {
       // Draw background
       if (size) drawBackground(context, size);
 
+      // Move note blocks
+      if (appState.gameState === GameState.Playing) updateProgress(deltaTime);
+
       // Draw note blocks
-      if (noteBlocks) {
-        drawNoteBlocks(context, noteBlocks, appState.notes, appState.progress);
-      }
+      if (noteGroup)
+        drawNoteBlocks(
+          context,
+          noteGroup.noteBlocks,
+          appState.notes,
+          appState.progress,
+        );
 
       // Draw keyboard
       if (keyboard) drawKeyboard(context, keyboard.keys, appState.notes);
     },
-    [appState.notes, appState.progress, keyboard, noteBlocks, size],
+    [
+      appState.gameState,
+      appState.notes,
+      appState.progress,
+      keyboard,
+      noteGroup,
+      size,
+      updateProgress,
+    ],
   );
 
   // Moves note blocks on scroll
   const handleWheel = useCallback(
     (event: React.WheelEvent<HTMLCanvasElement>) => {
-      if (keyboard && noteBlocks) {
+      if (keyboard && noteGroup) {
         // Determine amount to increment progess
         const amount =
           Math.sign(event.deltaY) *
           keyboard.size.height *
           NOTE_BLOCK_SCROLL_AMOUNT_TO_KEYBOARD_HEIGHT_RATIO;
-        appDispatch({ type: 'increment-progress', amount });
+        const { range } = noteGroup;
+        appDispatch({ type: 'scroll', amount, range });
       }
     },
-    [appDispatch, keyboard, noteBlocks],
+    [appDispatch, keyboard, noteGroup],
   );
 
   return (

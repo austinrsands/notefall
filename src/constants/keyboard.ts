@@ -2,7 +2,7 @@ import { grey } from '@material-ui/core/colors';
 import KeyboardType from '../enums/KeyboardType';
 import KeyType from '../enums/KeyType';
 import KeyState from '../enums/KeyState';
-import NoteRange from '../interfaces/NoteRange';
+import InclusiveRange from '../interfaces/InclusiveRange';
 
 // Colors
 type KeyPalette = Record<KeyType, Record<KeyState, string>>;
@@ -18,7 +18,7 @@ export const KEY_PALETTE: KeyPalette = {
 };
 
 // Note Ranges
-export const KEYBOARD_NOTE_RANGES: Record<KeyboardType, NoteRange> = {
+export const KEYBOARD_NOTE_RANGES: Record<KeyboardType, InclusiveRange> = {
   '49-key': { min: 36, max: 84 },
   '61-key': { min: 36, max: 96 },
   '76-key': { min: 28, max: 103 },

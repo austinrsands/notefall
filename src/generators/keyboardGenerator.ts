@@ -13,7 +13,7 @@ import {
   KEYBOARD_NOTE_RANGES,
 } from '../constants/keyboard';
 import Key from '../interfaces/Key';
-import NoteRange from '../interfaces/NoteRange';
+import InclusiveRange from '../interfaces/InclusiveRange';
 import Size from '../interfaces/Size';
 import KeyboardType from '../enums/KeyboardType';
 import KeyType from '../enums/KeyType';
@@ -35,7 +35,10 @@ const isNatural = (note: Note) =>
 const horizontalOffset = (note: Note) => KEY_OFFSETS[octaveIndex(note)];
 
 // Returns the range of notes for the given transposed keyboard
-const range = (keyboardType: KeyboardType, transpose: number): NoteRange => {
+const noteRange = (
+  keyboardType: KeyboardType,
+  transpose: number,
+): InclusiveRange => {
   const octaveOffset = transpose * NOTES_PER_OCTAVE;
   const untransposedNoteRange = KEYBOARD_NOTE_RANGES[keyboardType];
   return {
@@ -45,9 +48,9 @@ const range = (keyboardType: KeyboardType, transpose: number): NoteRange => {
 };
 
 // Returns the number of white keys in the given note range
-const numWhiteKeysInRange = (noteRange: NoteRange) => {
+const numWhiteKeysInRange = (range: InclusiveRange) => {
   let count = 0;
-  for (let note = noteRange.min; note <= noteRange.max; note++) {
+  for (let note = range.min; note <= range.max; note++) {
     if (isNatural(note)) count += 1;
   }
   return count;
@@ -64,7 +67,7 @@ const generateKeys = (
   whiteKeySize: Size,
   blackKeySize: Size,
   keyboardPosition: Position,
-  noteRange: NoteRange,
+  range: InclusiveRange,
 ) => {
   // Initialize array
   const keys: Key[] = [];
@@ -77,7 +80,7 @@ const generateKeys = (
   const keyY = keyboardPosition.y;
 
   // Loop through notes
-  for (let note = noteRange.min; note <= noteRange.max; note++) {
+  for (let note = range.min; note <= range.max; note++) {
     // Determine type
     const keyType = isNatural(note) ? KeyType.White : KeyType.Black;
 
@@ -121,17 +124,16 @@ const generateKeys = (
   return keys.sort(compareKeys);
 };
 
-// Returns keyboard
 const generateKeyboard = (
   canvasSize: Size,
   keyboardType: KeyboardType,
   transpose: number,
 ): Keyboard => {
   // Determine range of notes for the given transposed keyboard
-  const noteRange = range(keyboardType, transpose);
+  const range = noteRange(keyboardType, transpose);
 
   // Determine number of white keys
-  const numWhiteKeys = numWhiteKeysInRange(noteRange);
+  const numWhiteKeys = numWhiteKeysInRange(range);
 
   // Determine size of white keys
   const whiteKeyWidth =
@@ -156,13 +158,13 @@ const generateKeyboard = (
     whiteKeySize,
     blackKeySize,
     keyboardPosition,
-    noteRange,
+    range,
   );
 
   return {
     position: keyboardPosition,
     size: keyboardSize,
-    noteRange,
+    range,
     keys,
   };
 };

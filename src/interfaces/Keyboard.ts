@@ -1,12 +1,12 @@
 import Key from './Key';
-import NoteRange from './NoteRange';
+import InclusiveRange from './InclusiveRange';
 import Position from './Position';
 import Size from './Size';
 
 interface Keyboard {
   position: Position;
   size: Size;
-  noteRange: NoteRange;
+  range: InclusiveRange;
   keys: Key[];
 }
 

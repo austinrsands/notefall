@@ -10,13 +10,17 @@ import {
   DialogProps,
 } from '@material-ui/core';
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
+import clsx from 'clsx';
 import Option from './Option';
-import TempoSlider from './TempoSlider';
+import TempoScaleSlider from './TempoScaleSlider';
 import KeyboardTypeSelect from './KeyboardTypeSelect';
 import TransposeCounter from './TransposeCounter';
 import GameModeSelect from './GameModeSelect';
 
 const useStyles = makeStyles({
+  root: {
+    minWidth: '30rem',
+  },
   header: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -44,7 +48,11 @@ interface Props {
   ) => void;
 }
 
-const OptionsMenu: React.FC<Props & DialogProps> = ({ onClose, ...rest }) => {
+const OptionsMenu: React.FC<Props & DialogProps> = ({
+  className,
+  onClose,
+  ...rest
+}) => {
   const classes = useStyles();
 
   const handleClick = (
@@ -54,7 +62,13 @@ const OptionsMenu: React.FC<Props & DialogProps> = ({ onClose, ...rest }) => {
   };
 
   return (
-    <Dialog maxWidth="xs" fullWidth onClose={onClose} {...rest}>
+    <Dialog
+      className={clsx(classes.root, className)}
+      maxWidth="xs"
+      fullWidth
+      onClose={onClose}
+      {...rest}
+    >
       <DialogTitle disableTypography className={classes.header}>
         <Typography variant="h5" className={classes.title}>
           Options
@@ -70,8 +84,8 @@ const OptionsMenu: React.FC<Props & DialogProps> = ({ onClose, ...rest }) => {
         <Option title="Keyboard type" className={classes.option}>
           <KeyboardTypeSelect className={classes.input} />
         </Option>
-        <Option title="Tempo" className={classes.option}>
-          <TempoSlider className={classes.input} />
+        <Option title="Tempo scale" className={classes.option}>
+          <TempoScaleSlider className={classes.input} />
         </Option>
         <Option title="Transpose" className={classes.option}>
           <TransposeCounter className={classes.input} />

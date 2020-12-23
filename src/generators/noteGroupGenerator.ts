@@ -7,6 +7,8 @@ import {
   UNIT_NOTE_BLOCK_LENGTH_TO_KEYBOARD_HEIGHT_RATIO,
 } from '../constants/noteBlocks';
 import Keyboard from '../interfaces/Keyboard';
+import NoteGroup from '../interfaces/NoteGroup';
+import InclusiveRange from '../interfaces/InclusiveRange';
 
 // Used to separate black key note blocks from white
 const compareNoteBlocks = (a: NoteBlock, b: NoteBlock) => {
@@ -15,13 +17,37 @@ const compareNoteBlocks = (a: NoteBlock, b: NoteBlock) => {
   return 0;
 };
 
-const generateNoteBlocks = (song: Midi, keyboard: Keyboard): NoteBlock[] => {
+const getFirstNoteBlock = (noteBlocks: NoteBlock[]) =>
+  noteBlocks.reduce((prev, current) =>
+    prev.position.y + prev.size.height >
+    current.position.y + current.size.height
+      ? prev
+      : current,
+  );
+
+const getLastNoteBlock = (noteBlocks: NoteBlock[]) =>
+  noteBlocks.reduce((prev, current) =>
+    prev.position.y < current.position.y ? prev : current,
+  );
+
+const generateRange = (
+  noteBlocks: NoteBlock[],
+  keyboard: Keyboard,
+): InclusiveRange => {
+  const firstNoteBlock = getFirstNoteBlock(noteBlocks);
+  const lastNoteBlock = getLastNoteBlock(noteBlocks);
+  const min = -(firstNoteBlock.position.y + firstNoteBlock.size.height);
+  const max = -(lastNoteBlock.position.y - keyboard.position.y);
+  return { min, max };
+};
+
+const generateNoteBlocks = (
+  song: Midi,
+  keyboard: Keyboard,
+  unitLength: number,
+): NoteBlock[] => {
   // Initialize array
   const noteBlocks: NoteBlock[] = [];
-
-  // Determine how many pixels correspond to a second of note duration
-  const unitLength =
-    UNIT_NOTE_BLOCK_LENGTH_TO_KEYBOARD_HEIGHT_RATIO * keyboard.size.height;
 
   // Extract piano tracks
   const tracks = song.tracks.filter(
@@ -80,4 +106,22 @@ const generateNoteBlocks = (song: Midi, keyboard: Keyboard): NoteBlock[] => {
   return noteBlocks.sort(compareNoteBlocks);
 };
 
-export default generateNoteBlocks;
+const generateNoteGroup = (song: Midi, keyboard: Keyboard): NoteGroup => {
+  // Determine how many pixels correspond to a second of duration
+  const unitNoteBlockLength =
+    UNIT_NOTE_BLOCK_LENGTH_TO_KEYBOARD_HEIGHT_RATIO * keyboard.size.height;
+
+  // Generate note blocks
+  const noteBlocks = generateNoteBlocks(song, keyboard, unitNoteBlockLength);
+
+  // Determine valid range for progress
+  const range = generateRange(noteBlocks, keyboard);
+
+  return {
+    unitNoteBlockLength,
+    noteBlocks,
+    range,
+  };
+};
+
+export default generateNoteGroup;

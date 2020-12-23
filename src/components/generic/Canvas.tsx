@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Size from '../../interfaces/Size';
 
 const DEVICE_PIXEL_RATIO = window.devicePixelRatio || 1;
-const DEFAULT_TARGET_FRAMERATE = 60;
+const DEFAULT_TARGET_FRAMERATE = 120;
 
 interface Props {
   targetFramerate?: number;

@@ -1,18 +1,20 @@
 import { Midi } from '@tonejs/midi';
 import {
-  DEFAULT_TEMPO,
+  DEFAULT_TEMPO_SCALE,
   DEFAULT_KEYBOARD_SIZE,
   DEFAULT_TRANSPOSE,
   DEFAULT_GAME_MODE,
 } from '../constants/options';
 import GameMode from '../enums/GameMode';
+import GameState from '../enums/GameState';
 import KeyboardType from '../enums/KeyboardType';
+import InclusiveRange from '../interfaces/InclusiveRange';
 import Note from '../types/Note';
 
 export interface AppState {
-  isPaused: boolean;
-  mode: GameMode;
-  tempo: number;
+  gameState: GameState;
+  gameMode: GameMode;
+  tempoScale: number;
   keyboardType: KeyboardType;
   transpose: number;
   notes: number[];
@@ -21,9 +23,9 @@ export interface AppState {
 }
 
 export const DEFAULT_APP_STATE: AppState = {
-  isPaused: true,
-  mode: DEFAULT_GAME_MODE,
-  tempo: DEFAULT_TEMPO,
+  gameState: GameState.Paused,
+  gameMode: DEFAULT_GAME_MODE,
+  tempoScale: DEFAULT_TEMPO_SCALE,
   keyboardType: DEFAULT_KEYBOARD_SIZE,
   transpose: DEFAULT_TRANSPOSE,
   notes: [],
@@ -36,24 +38,33 @@ export type AppAction =
   | { type: 'restart' }
   | { type: 'upload'; song: Midi }
   | { type: 'update-game-mode'; mode: GameMode }
-  | { type: 'update-tempo'; tempo: number }
+  | { type: 'update-tempo-scale'; scale: number }
   | { type: 'update-keyboard-type'; keyboardType: KeyboardType }
   | { type: 'update-transpose'; transpose: number }
   | { type: 'play-note'; note: Note }
   | { type: 'rest-note'; note: Note }
-  | { type: 'increment-progress'; amount: number };
+  | {
+      type: 'move';
+      amount: number;
+      range: InclusiveRange;
+    }
+  | {
+      type: 'scroll';
+      amount: number;
+      range: InclusiveRange;
+    };
 
 const appReducer = (state: AppState, action: AppAction) => {
   switch (action.type) {
     case 'play':
       return {
         ...state,
-        isPaused: false,
+        gameState: GameState.Playing,
       };
     case 'pause': {
       return {
         ...state,
-        isPaused: true,
+        gameState: GameState.Paused,
       };
     }
     case 'restart': {
@@ -73,10 +84,10 @@ const appReducer = (state: AppState, action: AppAction) => {
         ...state,
         mode: action.mode,
       };
-    case 'update-tempo':
+    case 'update-tempo-scale':
       return {
         ...state,
-        tempo: action.tempo,
+        tempoScale: action.scale,
       };
     case 'update-keyboard-type':
       return {
@@ -100,10 +111,28 @@ const appReducer = (state: AppState, action: AppAction) => {
         ...state,
         notes: state.notes.filter((note) => note !== action.note),
       };
-    case 'increment-progress':
+    case 'move':
+      // Restart if end has been reached
+      if (state.progress + action.amount > action.range.max) {
+        return {
+          ...state,
+          progress: action.range.min,
+        };
+      }
       return {
         ...state,
-        progress: state.progress + action.amount,
+        progress: Math.min(
+          Math.max(state.progress + action.amount, action.range.min),
+          action.range.max,
+        ),
+      };
+    case 'scroll':
+      return {
+        ...state,
+        progress: Math.min(
+          Math.max(state.progress + action.amount, action.range.min),
+          action.range.max,
+        ),
       };
     default:
       return state;

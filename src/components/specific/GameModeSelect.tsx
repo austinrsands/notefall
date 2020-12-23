@@ -17,7 +17,7 @@ const GameModeSelect: React.FC<TextFieldProps> = (props) => {
     <TextField
       fullWidth
       select
-      value={appState.mode}
+      value={appState.gameMode}
       onChange={handleChange}
       {...props}
     >
