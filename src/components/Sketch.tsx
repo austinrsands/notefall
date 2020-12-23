@@ -47,13 +47,18 @@ const Sketch: React.FC<StyleProps> = ({ className, ...rest }) => {
   // Gets called every frame
   const handleDraw = useCallback(
     (context: CanvasRenderingContext2D) => {
-      const { width, height } = context.canvas.getBoundingClientRect();
-      drawBackground(context, { width, height });
-      if (noteBlocks)
+      // Draw background
+      if (size) drawBackground(context, size);
+
+      // Draw note blocks
+      if (noteBlocks) {
         drawNoteBlocks(context, noteBlocks, appState.notes, appState.progress);
+      }
+
+      // Draw keyboard
       if (keyboard) drawKeyboard(context, keyboard.keys, appState.notes);
     },
-    [appState.notes, appState.progress, keyboard, noteBlocks],
+    [appState.notes, appState.progress, keyboard, noteBlocks, size],
   );
 
   // Moves note blocks on scroll
@@ -77,6 +82,8 @@ const Sketch: React.FC<StyleProps> = ({ className, ...rest }) => {
       onDraw={handleDraw}
       onResize={handleResize}
       onWheel={handleWheel}
+      onSetup={() => undefined} // Test
+      targetFramerate={1} // Test
       {...rest}
     />
   );
