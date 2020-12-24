@@ -17,7 +17,8 @@ const compareNoteBlocks = (a: NoteBlock, b: NoteBlock) => {
   return 0;
 };
 
-const getFirstNoteBlock = (noteBlocks: NoteBlock[]) =>
+// Retrieves note block with the lowest bottom position
+const getBottommostNoteBlock = (noteBlocks: NoteBlock[]) =>
   noteBlocks.reduce((prev, current) =>
     prev.position.y + prev.size.height >
     current.position.y + current.size.height
@@ -25,19 +26,25 @@ const getFirstNoteBlock = (noteBlocks: NoteBlock[]) =>
       : current,
   );
 
-const getLastNoteBlock = (noteBlocks: NoteBlock[]) =>
+// Retrieves note block with the highest top position
+const getTopMostNoteBlock = (noteBlocks: NoteBlock[]) =>
   noteBlocks.reduce((prev, current) =>
     prev.position.y < current.position.y ? prev : current,
   );
 
+// Returns range of vertical position from the bottom of the bottommost note block to the top of the topmost note block
 const generateRange = (
   noteBlocks: NoteBlock[],
   keyboard: Keyboard,
 ): InclusiveRange => {
-  const firstNoteBlock = getFirstNoteBlock(noteBlocks);
-  const lastNoteBlock = getLastNoteBlock(noteBlocks);
+  const firstNoteBlock = getBottommostNoteBlock(noteBlocks);
+  const lastNoteBlock = getTopMostNoteBlock(noteBlocks);
   const min = -(firstNoteBlock.position.y + firstNoteBlock.size.height);
-  const max = -(lastNoteBlock.position.y - keyboard.position.y);
+  const max = -(
+    lastNoteBlock.position.y -
+    keyboard.position.y -
+    keyboard.size.height
+  );
   return { min, max };
 };
 
