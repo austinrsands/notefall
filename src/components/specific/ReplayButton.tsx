@@ -4,12 +4,8 @@ import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
 import StyleProps from '../../interfaces/StyleProps';
 import { useAppContext } from '../../contexts/AppContext';
 
-interface Props {
-  disabled?: boolean;
-}
-
-const ReplayButton: React.FC<Props & StyleProps> = ({ disabled, ...rest }) => {
-  const { appDispatch } = useAppContext();
+const ReplayButton: React.FC<StyleProps> = (props) => {
+  const { appState, appDispatch } = useAppContext();
 
   const handleClick = () => {
     appDispatch({ type: 'restart' });
@@ -19,8 +15,8 @@ const ReplayButton: React.FC<Props & StyleProps> = ({ disabled, ...rest }) => {
     <IconButton
       size="medium"
       onClick={handleClick}
-      disabled={disabled}
-      {...rest}
+      disabled={appState.song === undefined}
+      {...props}
     >
       <ReplayRoundedIcon />
     </IconButton>

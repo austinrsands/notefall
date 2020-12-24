@@ -13,6 +13,8 @@ import GameState from '../../enums/GameState';
 import NoteGroup from '../../interfaces/NoteGroup';
 import generateNoteGroup from '../../generators/noteGroupGenerator';
 import drawNoteBlocks from '../../drawing/noteBlocks';
+import GameMode from '../../enums/GameMode';
+import NoteBlock from '../../interfaces/NoteBlock';
 
 const useStyles = makeStyles({
   root: {
@@ -39,7 +41,29 @@ const Sketch: React.FC<CanvasProps> = ({ className, ...rest }) => {
     return null;
   }, [appState.song, keyboard]);
 
-  // Regenerates keys when necessary
+  const noteBlockShouldBePlayed = useCallback(
+    (noteBlock: NoteBlock) => {
+      if (noteGroup && keyboard) {
+        const top = noteBlock.position.y + appState.progress;
+        const bottom = top + noteBlock.size.height;
+        return keyboard.position.y >= top && keyboard.position.y <= bottom;
+      }
+      return false;
+    },
+    [appState.progress, keyboard, noteGroup],
+  );
+
+  const correctNotesArePlayed = useMemo(() => {
+    if (noteGroup && keyboard) {
+      const playableNotes = noteGroup.noteBlocks
+        .filter((noteBlock) => noteBlockShouldBePlayed(noteBlock))
+        .map((noteBlock) => noteBlock.note);
+
+      return playableNotes.every((note) => appState.notes.includes(note));
+    }
+    return false;
+  }, [appState.notes, keyboard, noteBlockShouldBePlayed, noteGroup]);
+
   const handleResize = useCallback((canvasSize: Size) => {
     setSize(canvasSize);
   }, []);
@@ -51,11 +75,22 @@ const Sketch: React.FC<CanvasProps> = ({ className, ...rest }) => {
         // Determine how much to move noteblocks
         const amount =
           noteGroup.unitNoteBlockLength * appState.tempoScale * deltaTime;
+
+        // Get valid range of movement
         const { range } = noteGroup;
-        appDispatch({ type: 'move', amount, range });
+
+        // Move notes
+        if (appState.gameMode === GameMode.Continuous || correctNotesArePlayed)
+          appDispatch({ type: 'move', amount, range });
       }
     },
-    [appDispatch, appState.tempoScale, noteGroup],
+    [
+      appDispatch,
+      appState.gameMode,
+      appState.tempoScale,
+      correctNotesArePlayed,
+      noteGroup,
+    ],
   );
 
   // Gets called every frame
@@ -100,7 +135,10 @@ const Sketch: React.FC<CanvasProps> = ({ className, ...rest }) => {
           Math.sign(event.deltaY) *
           keyboard.size.height *
           NOTE_BLOCK_SCROLL_AMOUNT_TO_KEYBOARD_HEIGHT_RATIO;
+
+        // Get valid range of movement
         const { range } = noteGroup;
+
         appDispatch({ type: 'scroll', amount, range });
       }
     },

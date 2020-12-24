@@ -12,6 +12,7 @@ const GithubButton: React.FC<Props & StyleProps> = ({ disabled, ...rest }) => (
     size="medium"
     href="https://github.com/austinrsands/notefall"
     target="_blank"
+    rel="noreferrer"
     disabled={disabled}
     {...rest}
   >

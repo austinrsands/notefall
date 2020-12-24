@@ -6,14 +6,7 @@ import StyleProps from '../../interfaces/StyleProps';
 import { useAppContext } from '../../contexts/AppContext';
 import GameState from '../../enums/GameState';
 
-interface Props {
-  disabled?: boolean;
-}
-
-const PlayPauseButton: React.FC<Props & StyleProps> = ({
-  disabled,
-  ...rest
-}) => {
+const PlayPauseButton: React.FC<StyleProps> = (props) => {
   const { appState, appDispatch } = useAppContext();
 
   const handleClick = () => {
@@ -25,8 +18,8 @@ const PlayPauseButton: React.FC<Props & StyleProps> = ({
     <IconButton
       size="medium"
       onClick={handleClick}
-      disabled={disabled}
-      {...rest}
+      disabled={appState.song === undefined}
+      {...props}
     >
       {appState.gameState === GameState.Paused ? (
         <PlayArrowRoundedIcon />

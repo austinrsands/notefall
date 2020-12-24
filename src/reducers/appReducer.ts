@@ -82,7 +82,7 @@ const appReducer = (state: AppState, action: AppAction) => {
     case 'update-game-mode':
       return {
         ...state,
-        mode: action.mode,
+        gameMode: action.mode,
       };
     case 'update-tempo-scale':
       return {

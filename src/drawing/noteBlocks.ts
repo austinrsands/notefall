@@ -1,9 +1,27 @@
 import { NOTE_BLOCK_PALETTE } from '../constants/noteBlocks';
 import NoteBlockState from '../enums/NoteBlockState';
+import InclusiveRange from '../interfaces/InclusiveRange';
 import Keyboard from '../interfaces/Keyboard';
 import NoteBlock from '../interfaces/NoteBlock';
 import Note from '../types/Note';
 import drawRoundedRect from './roundedRect';
+
+const isInRange = (value: number, range: InclusiveRange) =>
+  value <= range.max && value >= range.min;
+
+const noteBlockIsVisible = (
+  noteBlock: NoteBlock,
+  progress: number,
+  keyboard: Keyboard,
+) => {
+  const top = noteBlock.position.y + progress;
+  const bottom = top + noteBlock.size.height;
+  const visibleRange: InclusiveRange = {
+    min: 0,
+    max: keyboard.position.y + keyboard.size.height,
+  };
+  return isInRange(top, visibleRange) || isInRange(bottom, visibleRange);
+};
 
 const noteIsPlayed = (note: Note, notes: Note[]) => notes.includes(note);
 
@@ -52,12 +70,13 @@ const drawNoteBlocks = (
   keyboard: Keyboard,
 ) => {
   noteBlocks.forEach((noteBlock) => {
-    drawNoteBlock(
-      context,
-      noteBlock,
-      getNoteBlockState(noteBlock, notes, progress, keyboard),
-      progress,
-    );
+    if (noteBlockIsVisible(noteBlock, progress, keyboard))
+      drawNoteBlock(
+        context,
+        noteBlock,
+        getNoteBlockState(noteBlock, notes, progress, keyboard),
+        progress,
+      );
   });
 };
 

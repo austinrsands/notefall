@@ -1,4 +1,3 @@
 Stuff to implement:
-- register correct note block when played
 - wait for key mode
 - practice loop
