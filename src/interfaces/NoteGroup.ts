@@ -2,7 +2,7 @@ import InclusiveRange from './InclusiveRange';
 import NoteBlock from './NoteBlock';
 
 interface NoteGroup {
-  unitNoteBlockLength: number;
+  unitNoteBlockHeight: number;
   noteBlocks: NoteBlock[];
   range: InclusiveRange;
 }

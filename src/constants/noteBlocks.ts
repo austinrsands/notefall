@@ -44,5 +44,7 @@ export const NOTE_BLOCK_PALETTE: NoteBlockPalette = {
 // Ratios
 export const NOTE_BLOCK_CORNER_RADIUS_TO_WIDTH_RATIO = 1 / 8;
 export const NOTE_BLOCK_SCROLL_AMOUNT_TO_KEYBOARD_HEIGHT_RATIO = 1 / 4;
-export const UNIT_NOTE_BLOCK_LENGTH_TO_KEYBOARD_HEIGHT_RATIO = 2 / 3;
-export const NOTE_BLOCK_TOLERANCE_TO_LENGTH_RATIO = 1 / 10;
+export const UNIT_NOTE_BLOCK_HEIGHT_TO_KEYBOARD_HEIGHT_RATIO = 2 / 3;
+
+// Bigger denominator = more tolerance
+export const NOTE_BLOCK_TOLERANCE_FACTOR = 1 / 500;

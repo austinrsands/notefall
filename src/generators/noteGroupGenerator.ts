@@ -4,7 +4,7 @@ import Hand from '../enums/Hand';
 import KeyType from '../enums/KeyType';
 import {
   NOTE_BLOCK_CORNER_RADIUS_TO_WIDTH_RATIO,
-  UNIT_NOTE_BLOCK_LENGTH_TO_KEYBOARD_HEIGHT_RATIO,
+  UNIT_NOTE_BLOCK_HEIGHT_TO_KEYBOARD_HEIGHT_RATIO,
 } from '../constants/noteBlocks';
 import Keyboard from '../interfaces/Keyboard';
 import NoteGroup from '../interfaces/NoteGroup';
@@ -51,7 +51,7 @@ const generateRange = (
 const generateNoteBlocks = (
   song: Midi,
   keyboard: Keyboard,
-  unitLength: number,
+  unitHeight: number,
 ): NoteBlock[] => {
   // Initialize array
   const noteBlocks: NoteBlock[] = [];
@@ -82,13 +82,13 @@ const generateNoteBlocks = (
           correspondingKey.size.width * NOTE_BLOCK_CORNER_RADIUS_TO_WIDTH_RATIO;
 
         // Determine height
-        const height = note.duration * unitLength;
+        const height = note.duration * unitHeight;
 
         // Determine offset from top of screen where the notes will start
-        const initialOffset = keyboard.position.y - unitLength * 3;
+        const initialOffset = keyboard.position.y - unitHeight * 3;
 
         // Determine offset relative to start
-        const relativeOffset = note.time * unitLength + height;
+        const relativeOffset = note.time * unitHeight + height;
 
         // Push note block to array
         noteBlocks.push({
@@ -115,17 +115,17 @@ const generateNoteBlocks = (
 
 const generateNoteGroup = (song: Midi, keyboard: Keyboard): NoteGroup => {
   // Determine how many pixels correspond to a second of duration
-  const unitNoteBlockLength =
-    UNIT_NOTE_BLOCK_LENGTH_TO_KEYBOARD_HEIGHT_RATIO * keyboard.size.height;
+  const unitNoteBlockHeight =
+    UNIT_NOTE_BLOCK_HEIGHT_TO_KEYBOARD_HEIGHT_RATIO * keyboard.size.height;
 
   // Generate note blocks
-  const noteBlocks = generateNoteBlocks(song, keyboard, unitNoteBlockLength);
+  const noteBlocks = generateNoteBlocks(song, keyboard, unitNoteBlockHeight);
 
   // Determine valid range for progress
   const range = generateRange(noteBlocks, keyboard);
 
   return {
-    unitNoteBlockLength,
+    unitNoteBlockHeight,
     noteBlocks,
     range,
   };
