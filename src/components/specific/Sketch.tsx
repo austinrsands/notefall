@@ -41,6 +41,7 @@ const Sketch: React.FC<CanvasProps> = ({ className, ...rest }) => {
     return null;
   }, [appState.song, keyboard]);
 
+  // Returns whether the given note block should be played
   const noteBlockShouldBePlayed = useCallback(
     (noteBlock: NoteBlock) => {
       if (noteGroup && keyboard) {
@@ -53,13 +54,21 @@ const Sketch: React.FC<CanvasProps> = ({ className, ...rest }) => {
     [appState.progress, keyboard, noteGroup],
   );
 
+  // Determine if all and only notes that should be played are played
   const correctNotesArePlayed = useMemo(() => {
     if (noteGroup && keyboard) {
-      const playableNotes = noteGroup.noteBlocks
+      // Determine all notes that should be played
+      const notesThatShouldBePlayed = noteGroup.noteBlocks
         .filter((noteBlock) => noteBlockShouldBePlayed(noteBlock))
         .map((noteBlock) => noteBlock.note);
 
-      return playableNotes.every((note) => appState.notes.includes(note));
+      // Return true if all notes that should be are played and all notes that are played should be played
+      return (
+        notesThatShouldBePlayed.every((note) =>
+          appState.notes.includes(note),
+        ) &&
+        appState.notes.every((note) => notesThatShouldBePlayed.includes(note))
+      );
     }
     return false;
   }, [appState.notes, keyboard, noteBlockShouldBePlayed, noteGroup]);

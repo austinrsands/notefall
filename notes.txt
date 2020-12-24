@@ -1,3 +1,3 @@
 Stuff to implement:
-- wait for key mode
-- practice loop
+- increase tolerance for note release on wait mode
+- add ability to create a repeatable practice loop
