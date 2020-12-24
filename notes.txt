@@ -1,3 +1,0 @@
-Stuff to implement:
-- increase tolerance for note release on wait mode
-- add ability to create a repeatable practice loop
