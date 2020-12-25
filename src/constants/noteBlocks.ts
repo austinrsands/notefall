@@ -1,4 +1,4 @@
-import { blueGrey, pink, purple } from '@material-ui/core/colors';
+import { blue, pink, green } from '@material-ui/core/colors';
 import Hand from '../enums/Hand';
 import KeyType from '../enums/KeyType';
 import NoteBlockState from '../enums/NoteBlockState';
@@ -11,32 +11,32 @@ type NoteBlockPalette = Record<
 export const NOTE_BLOCK_PALETTE: NoteBlockPalette = {
   left: {
     white: {
-      unplayed: pink[200],
-      played: pink[700],
+      unplayed: blue.A700,
+      played: '#105986',
     },
     black: {
-      unplayed: pink[400],
-      played: pink[800],
+      unplayed: blue[900],
+      played: '#0D416A',
     },
   },
   right: {
     white: {
-      unplayed: purple[200],
-      played: purple[700],
+      unplayed: green.A700,
+      played: '#167063',
     },
     black: {
-      unplayed: purple[400],
-      played: purple[800],
+      unplayed: green[800],
+      played: '#144D47',
     },
   },
   unknown: {
     white: {
-      unplayed: blueGrey[200],
-      played: blueGrey[700],
+      unplayed: pink.A700,
+      played: '#731842',
     },
     black: {
-      unplayed: blueGrey[400],
-      played: blueGrey[800],
+      unplayed: pink[900],
+      played: '#551838',
     },
   },
 };
