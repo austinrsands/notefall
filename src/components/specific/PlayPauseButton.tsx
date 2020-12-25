@@ -18,6 +18,7 @@ const PlayPauseButton: React.FC<StyleProps> = (props) => {
     <IconButton
       size="medium"
       onClick={handleClick}
+      aria-label={appState.gameState === GameState.Paused ? 'play' : 'pause'}
       disabled={appState.song === undefined}
       {...props}
     >

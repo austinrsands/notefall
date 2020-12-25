@@ -9,7 +9,7 @@ interface Props {
 }
 
 const OptionsButton: React.FC<Props & StyleProps> = ({ disabled, ...rest }) => (
-  <IconButton size="medium" disabled={disabled} {...rest}>
+  <IconButton size="medium" aria-label="options" disabled={disabled} {...rest}>
     <TuneRoundedIcon />
   </IconButton>
 );

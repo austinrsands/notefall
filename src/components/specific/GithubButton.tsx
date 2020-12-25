@@ -13,6 +13,7 @@ const GithubButton: React.FC<Props & StyleProps> = ({ disabled, ...rest }) => (
     href="https://github.com/austinrsands/notefall"
     target="_blank"
     rel="noreferrer"
+    aria-label="GitHub repo link"
     disabled={disabled}
     {...rest}
   >

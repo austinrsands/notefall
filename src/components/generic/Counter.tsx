@@ -61,6 +61,7 @@ const Counter: React.FC<CounterProps> = ({
         onClick={handleDecrement}
         disabled={minValue !== undefined && value === minValue}
         color="primary"
+        aria-label="decrement"
       >
         <RemoveRoundedIcon />
       </IconButton>
@@ -71,6 +72,7 @@ const Counter: React.FC<CounterProps> = ({
         onClick={handleIncrement}
         disabled={maxValue !== undefined && value === maxValue}
         color="primary"
+        aria-label="increment"
       >
         <AddRoundedIcon />
       </IconButton>

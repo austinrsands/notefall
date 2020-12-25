@@ -15,6 +15,7 @@ const ReplayButton: React.FC<StyleProps> = (props) => {
     <IconButton
       size="medium"
       onClick={handleClick}
+      aria-label="replay"
       disabled={appState.song === undefined}
       {...props}
     >
