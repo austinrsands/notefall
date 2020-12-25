@@ -103,7 +103,7 @@ const DeviceManager: React.FC = () => {
     <SimpleBackdrop
       open
       title="MIDI access blocked"
-      subtitle="enable full control of MIDI devices to continue"
+      subtitle="enable full control of MIDI devices to use a keyboard"
     />
   ) : null;
 };
