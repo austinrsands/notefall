@@ -8,16 +8,14 @@ import Size from '../../interfaces/Size';
 import Canvas, { CanvasProps } from '../generic/Canvas';
 import Keyboard from '../../interfaces/Keyboard';
 import generateKeyboard from '../../generators/keyboardGenerator';
-import {
-  NOTE_BLOCK_SCROLL_AMOUNT_TO_KEYBOARD_HEIGHT_RATIO,
-  NOTE_BLOCK_TOLERANCE_FACTOR,
-} from '../../constants/noteBlocks';
+import { NOTE_BLOCK_SCROLL_AMOUNT_TO_KEYBOARD_HEIGHT_RATIO } from '../../constants/noteBlocks';
 import GameState from '../../enums/GameState';
 import NoteGroup from '../../interfaces/NoteGroup';
 import generateNoteGroup from '../../generators/noteGroupGenerator';
-import drawNoteBlocks from '../../drawing/noteBlocks';
+import drawNoteBlocks, {
+  notesThatShouldBePlayedArePlayed,
+} from '../../drawing/noteBlocks';
 import GameMode from '../../enums/GameMode';
-import NoteBlock from '../../interfaces/NoteBlock';
 
 const useStyles = makeStyles({
   root: {
@@ -44,47 +42,6 @@ const Sketch: React.FC<CanvasProps> = ({ className, ...rest }) => {
     return null;
   }, [appState.song, keyboard]);
 
-  // Returns whether the given note block should be played
-  const noteBlockShouldBePlayed = useCallback(
-    (noteBlock: NoteBlock) => {
-      if (noteGroup && keyboard) {
-        // Determine actual position of top and bottom of note block
-        const top = noteBlock.position.y + appState.progress;
-        const bottom = top + noteBlock.size.height;
-
-        // Determine release tolerance so its small for small blocks and large for large blocks
-        const releaseTolerance =
-          noteBlock.size.height /
-          Math.exp(NOTE_BLOCK_TOLERANCE_FACTOR * noteBlock.size.height);
-
-        // Determine top with tolerance taken into account
-        const toleratedTop = bottom - releaseTolerance;
-
-        return (
-          keyboard.position.y >= toleratedTop && keyboard.position.y <= bottom
-        );
-      }
-      return false;
-    },
-    [appState.progress, keyboard, noteGroup],
-  );
-
-  // Determine if all notes that should be played are played
-  const notesThatShouldBePlayedArePlayed = useMemo(() => {
-    if (noteGroup && keyboard) {
-      // Determine all notes that should be played
-      const notesThatShouldBePlayed = noteGroup.noteBlocks
-        .filter((noteBlock) => noteBlockShouldBePlayed(noteBlock))
-        .map((noteBlock) => noteBlock.note);
-
-      // Return true if all notes that should be are played
-      return notesThatShouldBePlayed.every((note) =>
-        appState.notes.includes(note),
-      );
-    }
-    return false;
-  }, [appState.notes, keyboard, noteBlockShouldBePlayed, noteGroup]);
-
   const handleResize = useCallback((canvasSize: Size) => {
     setSize(canvasSize);
   }, []);
@@ -92,7 +49,7 @@ const Sketch: React.FC<CanvasProps> = ({ className, ...rest }) => {
   // Moves note blocks
   const updateProgress = useCallback(
     (deltaTime: number) => {
-      if (noteGroup) {
+      if (noteGroup && keyboard) {
         // Determine how much to move noteblocks
         const amount =
           noteGroup.unitNoteBlockHeight * appState.tempoScale * deltaTime;
@@ -103,17 +60,24 @@ const Sketch: React.FC<CanvasProps> = ({ className, ...rest }) => {
         // Move notes
         if (
           appState.gameMode === GameMode.Continuous ||
-          notesThatShouldBePlayedArePlayed
+          notesThatShouldBePlayedArePlayed(
+            noteGroup.noteBlocks,
+            appState.notes,
+            appState.progress,
+            keyboard,
+          )
         )
           appDispatch({ type: 'move', amount, range });
       }
     },
     [
-      appDispatch,
-      appState.gameMode,
-      appState.tempoScale,
-      notesThatShouldBePlayedArePlayed,
       noteGroup,
+      keyboard,
+      appState.tempoScale,
+      appState.gameMode,
+      appState.notes,
+      appState.progress,
+      appDispatch,
     ],
   );
 
