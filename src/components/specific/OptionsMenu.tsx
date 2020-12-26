@@ -81,10 +81,10 @@ const OptionsMenu: React.FC<Props & DialogProps> = ({
         <Option title="Mode" className={classes.option}>
           <GameModeSelect className={classes.input} />
         </Option>
-        <Option title="Keyboard type" className={classes.option}>
+        <Option title="Keyboard" className={classes.option}>
           <KeyboardTypeSelect className={classes.input} />
         </Option>
-        <Option title="Tempo scale" className={classes.option}>
+        <Option title="Tempo" className={classes.option}>
           <TempoScaleSlider className={classes.input} />
         </Option>
         <Option title="Transpose" className={classes.option}>
