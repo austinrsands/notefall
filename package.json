@@ -8,9 +8,9 @@
   "private": true,
   "homepage": "https://austinrsands.github.io/notefall/",
   "scripts": {
-    "start": "parcel src/index.html --open",
+    "start": "parcel src/entry/index.html --open",
     "prebuild": "rm -rf dist",
-    "build": "parcel build src/index.html --no-source-maps --public-url ./",
+    "build": "parcel build src/entry/index.html --no-source-maps --public-url ./",
     "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
