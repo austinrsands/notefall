@@ -4,7 +4,6 @@
   "description": "a web app for learning songs from MIDI files with a connected piano keyboard",
   "repository": "https://github.com/austinrsands/notefall",
   "author": "Austin Sands",
-  "license": "MIT",
   "private": true,
   "homepage": "https://austinrsands.github.io/notefall/",
   "scripts": {
