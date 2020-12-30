@@ -1,11 +1,11 @@
 import React from 'react';
 import { Box, CssBaseline, makeStyles, ThemeProvider } from '@material-ui/core';
 import { SnackbarProvider } from 'notistack';
-import { darkTheme } from './theme';
 import DeviceManager from './device-manager';
 import { GameContextProvider } from './game-context';
 import Sketch from './sketch';
 import TopBar from './top-bar';
+import theme from './theme';
 
 const useStyles = makeStyles({
   sketch: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 const App: React.FC = () => {
   const classes = useStyles();
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <GameContextProvider>
         <SnackbarProvider>

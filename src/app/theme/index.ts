@@ -1,7 +1,7 @@
 import { createMuiTheme } from '@material-ui/core';
 import { grey, lightBlue } from '@material-ui/core/colors';
 
-export const darkTheme = createMuiTheme({
+const theme = createMuiTheme({
   palette: {
     type: 'dark',
     primary: {
@@ -20,7 +20,6 @@ export const darkTheme = createMuiTheme({
       letterSpacing: '0.05rem',
     },
     fontFamily: [
-      'Proxima Nova',
       '-apple-system',
       'BlinkMacSystemFont',
       '"Segoe UI"',
@@ -34,3 +33,5 @@ export const darkTheme = createMuiTheme({
     ].join(','),
   },
 });
+
+export default theme;
