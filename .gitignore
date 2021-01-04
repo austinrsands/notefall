@@ -5,6 +5,9 @@ node_modules/
 dist/
 .cache/
 
+# development build
+test/
+
 # vscode
 .vscode/
 
