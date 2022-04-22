@@ -2,7 +2,7 @@
 
 # Notefall
 
-A web app for learning songs from MIDI files with a connected piano keyboard. Generated note blocks fall continuously or stop until the right keys are pressed. The number of keys, transpose level, and tempo may also be adjusted.
+Notefall is a web app for learning songs from MIDI files with a connected piano keyboard. Generated note blocks fall continuously or stop until the right keys are pressed. The number of keys, transpose level, and tempo may also be adjusted.
 
 ## Demo
 
