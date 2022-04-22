@@ -1,15 +1,13 @@
 # dependencies
-node_modules/
+node_modules
 
-# production build
-dist/
-.cache/
+# build artifacts
+dist
+build
 
-# development build
-test/
+# logs
+yarn-debug.log*
+yarn-error.log*
 
-# vscode
-.vscode/
-
-# debug
-debug.log
+# macOS metadata
+.DS_Store
